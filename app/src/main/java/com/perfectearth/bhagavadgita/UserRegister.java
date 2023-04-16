@@ -189,7 +189,6 @@ public class UserRegister extends AppCompatActivity {
             inTextPassword.setError("Please fill");
             inTextPassword.requestFocus();
         }
-        inTextPassword.getText().clear();
         CustomProgress.showProgressBar(this,false,"Please\nWait....");
         loginUser(phone, password);
     }
