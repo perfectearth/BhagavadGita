@@ -6,7 +6,7 @@
         android:title="@string/home"
         android:contentDescription="@string/gita_name"/>
     <item
-        android:id="@+id/menu_quotes"
+        android:id="@+id/menu_board"
         android:icon="@drawable/leaderboard_icon"
         android:title="@string/leaderboard"
         android:contentDescription="@string/gita_name"/>

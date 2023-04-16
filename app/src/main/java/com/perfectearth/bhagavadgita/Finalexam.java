@@ -243,6 +243,7 @@ public class Finalexam extends AppCompatActivity implements ExamAdapter.ItemOnCl
              , new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    finish();
                     CustomProgress.hideProgressBar();
                 }
         }) {
@@ -278,6 +279,7 @@ public class Finalexam extends AppCompatActivity implements ExamAdapter.ItemOnCl
                         JSONObject jsonObject = jsonArrayResult.getJSONObject(i);
                         JSONArray examAllArray = jsonObject.getJSONArray("exam_all");
                         set_version = jsonObject.getString("examVersion");
+                        CustomProgress.hideProgressBar();
                         if (set_version.equals(version)){
                             allResultSet();
                             switchLayouts(showResult);
@@ -310,7 +312,6 @@ public class Finalexam extends AppCompatActivity implements ExamAdapter.ItemOnCl
                                 }
                                 examAdapter = new ExamAdapter(examList,Finalexam.this,Finalexam.this);
                                 examRecycler.setAdapter(examAdapter);
-                                CustomProgress.hideProgressBar();
                                 if (startExam.getVisibility()==View.GONE){
                                     startExam.setVisibility(View.VISIBLE);
                                     textDescription.setText(examDescription);

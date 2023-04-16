@@ -1,5 +1,6 @@
 package com.perfectearth.bhagavadgita.Fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,9 +17,18 @@ public class ScoreFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_score, container, false);
+        View view = inflater.inflate(R.layout.fragment_score, container, false);
+
+        return view;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ViewGroup overlayContainer = getActivity().findViewById(R.id.overlay_quiz);
+        overlayContainer.removeViewAt(overlayContainer.getChildCount() - 1);
+    }
+
 }

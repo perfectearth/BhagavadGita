@@ -1,9 +1,13 @@
 package com.perfectearth.bhagavadgita;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +16,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -27,6 +32,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+import com.perfectearth.bhagavadgita.Fragment.ScoreFragment;
 import com.perfectearth.bhagavadgita.Utilis.SessionManager;
 
 import java.util.HashMap;
@@ -37,6 +45,7 @@ public class QuizAll extends AppCompatActivity {
     private Toolbar quizToolbar;
     private ImageButton quizShow,examShow;
     private SessionManager sessionManager;
+    private BottomNavigationView bottomNavQuiz;
 
 
     @Override
@@ -64,6 +73,9 @@ public class QuizAll extends AppCompatActivity {
         
         quizShow = findViewById(R.id.quiz_start);
         examShow = findViewById(R.id.exam_start);
+
+
+        bottomNavQuiz = findViewById(R.id.bottom_navi_quiz);
 
 
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_quiz);
@@ -108,6 +120,24 @@ public class QuizAll extends AppCompatActivity {
                 } else if(isShow) {
                     isShow = false;
                 }
+            }
+        });
+
+        bottomNavQuiz.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_board:
+
+                        ScoreFragment scoreFragment = new ScoreFragment();
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.overlay_quiz, scoreFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                        return true;
+                }
+                return false;
             }
         });
 
