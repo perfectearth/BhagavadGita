@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Finalexam">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_exam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/exam_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_collapseMode="pin">
+            <TextView
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"
+                android:text="@string/final_exam"
+                android:id="@+id/txt_title_exam"/>
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <include
+        android:id="@+id/show_exam"
+        android:visibility="gone"
+        android:layout_below="@id/app_bar_exam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/exam_layout"/>
+    <include
+        android:visibility="gone"
+        android:layout_below="@id/app_bar_exam"
+        android:id="@+id/start_exam"
+        android:layout_margin="@dimen/dp_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/exam_start_layout"/>
+    <include
+        android:visibility="gone"
+        android:layout_margin="@dimen/dp_20"
+        android:id="@+id/show_result"
+        android:layout_below="@id/app_bar_exam"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/exam_result"/>
+
+   <LinearLayout
+       android:id="@+id/animation_view_exam"
+       android:layout_centerInParent="true"
+       android:visibility="gone"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="vertical">
+       <com.airbnb.lottie.LottieAnimationView
+           android:layout_width="150dp"
+           android:layout_height="150dp"
+           app:lottie_rawRes="@raw/load_krishna"
+           app:lottie_autoPlay="true"
+           app:lottie_loop="true"/>
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:textAlignment="center"
+           android:id="@+id/no_exam_text"
+           android:layout_gravity="center"
+           android:text="@string/final_exam_no"/>
+   </LinearLayout>
+
+</RelativeLayout>

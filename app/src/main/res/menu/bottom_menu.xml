@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/home"
+        android:title="@string/home"
+        android:contentDescription="@string/gita_name"/>
+    <item
+        android:id="@+id/menu_quotes"
+        android:icon="@drawable/quote"
+        android:title="@string/quotes"
+        android:contentDescription="@string/gita_name"/>
+
+    <item
+        android:id="@+id/menu_bookmarks"
+        android:icon="@drawable/bookmarks"
+        android:title="@string/bookmarks"
+        android:contentDescription="@string/gita_name"/>
+
+
+
+    <item
+        android:id="@+id/menu_about"
+        android:icon="@drawable/about"
+        android:title="@string/about"
+        android:contentDescription="@string/gita_name"/>
+
+</menu>

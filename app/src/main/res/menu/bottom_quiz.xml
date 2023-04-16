@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/quiz_home"
+        android:icon="@drawable/home"
+        android:title="@string/home"
+        android:contentDescription="@string/gita_name"/>
+    <item
+        android:id="@+id/menu_quotes"
+        android:icon="@drawable/leaderboard_icon"
+        android:title="@string/leaderboard"
+        android:contentDescription="@string/gita_name"/>
+
+    <item
+        android:id="@+id/menu_bookmarks"
+        android:icon="@drawable/user_icon"
+        android:title="@string/profile"
+        android:contentDescription="@string/gita_name"/>
+
+</menu>

@@ -1,0 +1,80 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:alpha="0.4"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/up_frame"
+        android:contentDescription="@string/app_name"/>
+    <ImageView
+        android:layout_alignParentEnd="true"
+        android:scaleX="-1"
+        android:alpha="0.4"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/up_frame"
+        android:contentDescription="@string/app_name"/>
+    <ImageView
+        android:alpha="0.4"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:scaleY="-1"
+        android:id="@+id/corner_image"
+        android:src="@drawable/down_frame"
+        android:layout_below="@id/text_lll"
+        android:contentDescription="@string/app_name"/>
+    <ImageView
+        android:alpha="0.4"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="fitXY"
+        android:scaleY="-1"
+        android:scaleX="-1"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/text_lll"
+        android:src="@drawable/down_frame"
+        android:contentDescription="@string/app_name"/>
+
+    <LinearLayout
+        android:id="@+id/text_lll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/read_text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/mongolaName"
+            android:textSize="@dimen/sp_20"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/read_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_20"
+            android:gravity="center"
+            android:hint="@string/mongola"
+            android:lineSpacingExtra="@dimen/dp_5"
+            android:textSize="@dimen/sp_15"
+            app:autoSizeTextType="uniform" />
+
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_20"
+            android:text="@string/finished" />
+    </LinearLayout>
+</RelativeLayout>

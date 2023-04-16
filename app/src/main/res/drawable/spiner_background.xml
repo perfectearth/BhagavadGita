@@ -1,0 +1,16 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <layer-list>
+            <item>
+                <shape>
+                    <solid android:color="@color/white" />
+                    <corners android:radius="4dp" />
+                </shape>
+            </item>
+            <item android:drawable="@drawable/arrow_drop_down"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" />
+        </layer-list>
+    </item>
+</selector>
