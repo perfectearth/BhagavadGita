@@ -156,6 +156,7 @@ public class Finalexam extends AppCompatActivity implements ExamAdapter.ItemOnCl
                 }
             }
         });
+        CustomProgress.showProgressBar(this,false,"Wait..");
         checkExam();
         processToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,6 +233,7 @@ public class Finalexam extends AppCompatActivity implements ExamAdapter.ItemOnCl
                     } else {
                         String error = jsonObject.getString("error");
                         Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                        CustomProgress.hideProgressBar();
                     }
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
@@ -241,6 +243,7 @@ public class Finalexam extends AppCompatActivity implements ExamAdapter.ItemOnCl
              , new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    CustomProgress.hideProgressBar();
                 }
         }) {
             @Override

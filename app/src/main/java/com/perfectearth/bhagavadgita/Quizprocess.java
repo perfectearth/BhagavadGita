@@ -59,11 +59,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class Quizprocess extends AppCompatActivity implements View.OnClickListener,ChapterAdapter.OnItemClickListener  {
@@ -174,13 +178,19 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
                     switchLayouts(showCatalog);
                     categoryName.setText(R.string.quiz_catalog);
                     mCountDown.cancel();
-                    submitData(phone,correctAns,playChapter,totalQuestion,correctAns,wrongAns);
+                    Calendar calendar = Calendar.getInstance();
+                    Date currentDate = calendar.getTime();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    String formattedDate = dateFormat.format(currentDate);
+
+                    submitData(phone,formattedDate,correctAns,playChapter,totalQuestion,correctAns,wrongAns);
                     index=0;
                     thisQuestion=0;
                 }
             }
         });
 
+        CustomProgress.showProgressBar(this,false,"Wait..");
         getQuizFile();
     }
 
@@ -225,8 +235,7 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    private void submitData(String phonea,int cor , int playChapter,int QuesTotal, int correct,int wrong ) {
-
+    private void submitData(String phonea,String date,int cor , int playChapter,int QuesTotal, int correct,int wrong ) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -245,6 +254,7 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
                 Map<String, String> params = new HashMap<>();
                 params.put("phone", phonea);
                 params.put("total_score", String.valueOf(cor));
+                params.put("play_date", String.valueOf(date));
                 params.put("chapter", String.valueOf(playChapter));
                 params.put("total", String.valueOf(QuesTotal));
                 params.put("correct", String.valueOf(correct));
