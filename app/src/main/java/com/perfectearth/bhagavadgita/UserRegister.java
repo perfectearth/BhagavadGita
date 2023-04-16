@@ -224,9 +224,6 @@ public class UserRegister extends AppCompatActivity {
             upTextPassword.requestFocus();
             return;
         }
-        upTextName.getText().clear();
-        upTextPhone.getText().clear();
-        upTextPassword.getText().clear();
         String a_id = sessionManager.getId();
         CustomProgress.showProgressBar(this,false,"Please\nWait....");
         registerUser(name, phone, password,a_id);
@@ -289,6 +286,9 @@ public class UserRegister extends AppCompatActivity {
             public void onResponse(String response) {
                 if (response.contains("Registration Success")) {
                     CustomProgress.hideProgressBar();
+                    upTextName.getText().clear();
+                    upTextPhone.getText().clear();
+                    upTextPassword.getText().clear();
                     Toast.makeText(getApplicationContext(), "Registration Success", Toast.LENGTH_LONG).show();
                     switchLayouts(login_view);
                 } else {
