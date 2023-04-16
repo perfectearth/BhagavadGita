@@ -98,4 +98,6 @@
     <string name="phone_input_hint">Input Full number</string>
     <string name="leaderboard">Leader Board</string>
     <string name="profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

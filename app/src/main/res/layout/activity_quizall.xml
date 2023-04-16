@@ -37,6 +37,12 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
+    <FrameLayout
+        android:id="@+id/overlay_quiz"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- add the rest of your layout here -->
+    </FrameLayout>
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
