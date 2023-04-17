@@ -1,11 +1,14 @@
 package com.perfectearth.bhagavadgita;
 
+import static android.view.View.GONE;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -34,6 +37,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.perfectearth.bhagavadgita.Fragment.ProfileFragment;
 import com.perfectearth.bhagavadgita.Fragment.ScoreFragment;
 import com.perfectearth.bhagavadgita.Utilis.SessionManager;
 
@@ -45,6 +49,7 @@ public class QuizAll extends AppCompatActivity {
     private Toolbar quizToolbar;
     private ImageButton quizShow,examShow;
     private SessionManager sessionManager;
+    private View optionQuiz;
     private BottomNavigationView bottomNavQuiz;
 
 
@@ -63,6 +68,7 @@ public class QuizAll extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sessionManager = new SessionManager(this);
+        optionQuiz = findViewById(R.id.quiz_option);
 
         if (!sessionManager.isLoggedIn()) {
             sessionManager.clearSession();
@@ -127,20 +133,30 @@ public class QuizAll extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
+                    case R.id.quiz_home:
+                        if (optionQuiz.getVisibility()==View.GONE){
+                            optionQuiz.setVisibility(View.VISIBLE);
+                        }
+                        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        return true;
                     case R.id.menu_board:
+                        if (optionQuiz.getVisibility()==View.VISIBLE){
+                            optionQuiz.setVisibility(GONE);
+                        }
+                        showFragment(getSupportFragmentManager().findFragmentByTag("fragment1"));
+                        return true;
 
-                        ScoreFragment scoreFragment = new ScoreFragment();
-                        FragmentManager fragmentManager = getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.overlay_quiz, scoreFragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                    case R.id.menu_profile:
+                        showFragment(getSupportFragmentManager().findFragmentByTag("fragment2"));
+                        if (optionQuiz.getVisibility()==View.VISIBLE){
+                            optionQuiz.setVisibility(GONE);
+                        }
                         return true;
                 }
                 return false;
             }
         });
-
+        setupFragments();
     }
 
     @Override
@@ -148,4 +164,22 @@ public class QuizAll extends AppCompatActivity {
         super.onStart();
     }
 
+    private void showFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.overlay_quiz, fragment)
+                .commit();
+    }
+
+    private void setupFragments() {
+        Fragment fragment1 = new ScoreFragment();
+        Fragment fragment2 = new ProfileFragment();
+        showFragment(fragment1);
+        // Add the fragments to the view hierarchy but hide them
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.overlay_quiz, fragment1)
+                .hide(fragment1)
+                .add(R.id.overlay_quiz, fragment2)
+                .hide(fragment2)
+                .commit();
+    }
 }

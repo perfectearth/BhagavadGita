@@ -12,7 +12,7 @@
         android:contentDescription="@string/gita_name"/>
 
     <item
-        android:id="@+id/menu_bookmarks"
+        android:id="@+id/menu_profile"
         android:icon="@drawable/user_icon"
         android:title="@string/profile"
         android:contentDescription="@string/gita_name"/>

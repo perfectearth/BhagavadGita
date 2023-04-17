@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:backgroundTint="@color/purple_500"
         android:layout_height="wrap_content">
-
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_quiz"
             android:layout_width="match_parent"
@@ -37,22 +36,26 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
-    <FrameLayout
-        android:id="@+id/overlay_quiz"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <!-- add the rest of your layout here -->
-    </FrameLayout>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <include
-            android:layout_marginTop="@dimen/dp_20"
-            android:layout_height="wrap_content"
+        <RelativeLayout
             android:layout_width="match_parent"
-            layout="@layout/quiz_layout"/>
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:id="@+id/overlay_quiz"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <include
+                android:id="@+id/quiz_option"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                layout="@layout/quiz_layout"/>
+        </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
    <RelativeLayout
        android:layout_width="match_parent"
