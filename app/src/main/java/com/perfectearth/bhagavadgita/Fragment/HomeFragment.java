@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
@@ -85,10 +86,11 @@ public class HomeFragment extends Fragment implements ChapterAdapter.OnItemClick
         btnDialog = homeView.findViewById(R.id.read_btn);
         chapterView = homeView.findViewById(R.id.recycler_chapter);
         lastOpen = homeView.findViewById(R.id.last_card_click);
+        int columns = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT
+                && getResources().getConfiguration().screenWidthDp < 600 ? 2 : 4;
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), columns);
+        chapterView.setLayoutManager(layoutManager);
         chapterView.setHasFixedSize(true);
-        chapterView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false);
-        chapterView.setLayoutManager(gridLayoutManager);
         chapterView.setNestedScrollingEnabled(false);
         chapterList = new ArrayList<>();
         chreatData();

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -145,10 +146,11 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
 
 
         quizRecycler = findViewById(R.id.catalog_quiz_recycler);
+        int columns = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT
+                && getResources().getConfiguration().screenWidthDp < 600 ? 2 : 4;
+        GridLayoutManager layoutManager = new GridLayoutManager(this, columns);
+        quizRecycler.setLayoutManager(layoutManager);
         quizRecycler.setHasFixedSize(true);
-        quizRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
-        quizRecycler.setLayoutManager(gridLayoutManager);
         quizRecycler.setNestedScrollingEnabled(false);
         catalogList = new ArrayList<>();
 
