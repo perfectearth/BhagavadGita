@@ -52,6 +52,7 @@ public class QuizAll extends AppCompatActivity {
     private View optionQuiz;
     private BottomNavigationView bottomNavQuiz;
     private Fragment activeFragment;
+    private String url , phone;
 
 
     @Override
@@ -70,12 +71,14 @@ public class QuizAll extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
         optionQuiz = findViewById(R.id.quiz_option);
-
+        url = getString(R.string.quiz_link);
         if (!sessionManager.isLoggedIn()) {
             sessionManager.clearSession();
             Intent intent = new Intent(this, UserRegister.class);
             startActivity(intent);
             finish();
+        }else {
+            phone = sessionManager.getPhone();
         }
 
         quizShow = findViewById(R.id.quiz_start);
@@ -210,6 +213,36 @@ public class QuizAll extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getData(phone);
+    }
+
+    private void getData(String phone) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(QuizAll.this, response, Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(QuizAll.this, "s "+error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("phone", phone);
+                params.put("action","list_score");
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
 }

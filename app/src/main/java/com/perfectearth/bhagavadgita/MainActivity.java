@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.OnNe
     private View rootView;
     private Toolbar toolbar;
 
-    private String token = "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";
+    private String token = "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";
     private static final int RC_APP_UPDATE = 123;
     private AppUpdateManager appUpdateManager;
 
@@ -261,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.OnNe
                 } else {
                     CustomProgress.showProgressBar(MainActivity.this,false,"Send Data..");
                     RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-                    String url = "https://api.github.com/repos/perfectearth/bhagavadgita/issues";
+                    String url = "https://api.github.com/repos/perfectearth/BhagavadGita/issues";
                     JSONObject jsonBody = new JSONObject();
                     try {
                         jsonBody.put("title", title);

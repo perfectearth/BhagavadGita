@@ -98,4 +98,5 @@
     <string name="phone_input_hint">Input Full number</string>
     <string name="leaderboard">Leader Board</string>
     <string name="profile">Profile</string>
+    <string name="category_quiz">Categories</string>
 </resources>

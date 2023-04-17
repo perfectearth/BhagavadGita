@@ -186,6 +186,7 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
                     String formattedDate = dateFormat.format(currentDate);
 
                     submitData(phone,formattedDate,correctAns,playChapter,totalQuestion,correctAns,wrongAns);
+                    CustomProgress.showProgressBar(Quizprocess.this,false,"Wait...");
                     index=0;
                     thisQuestion=0;
                 }
@@ -241,19 +242,20 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(Quizprocess.this, "s "+response, Toast.LENGTH_SHORT).show();
+                CustomProgress.hideProgressBar();
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Quizprocess.this, "s "+error.getMessage(), Toast.LENGTH_SHORT).show();
+                CustomProgress.hideProgressBar();
             }
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 // Add parameters to request
                 Map<String, String> params = new HashMap<>();
+                params.put("action", "save_quiz");
                 params.put("phone", phonea);
                 params.put("total_score", String.valueOf(cor));
                 params.put("play_date", String.valueOf(date));

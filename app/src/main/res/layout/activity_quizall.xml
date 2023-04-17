@@ -51,7 +51,6 @@
                 android:layout_height="match_parent"/>
             <include
                 android:id="@+id/quiz_option"
-                android:layout_marginTop="@dimen/dp_20"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 layout="@layout/quiz_layout"/>
