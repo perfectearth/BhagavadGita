@@ -24,11 +24,5 @@ public class ScoreFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ViewGroup overlayContainer = getActivity().findViewById(R.id.overlay_quiz);
-        overlayContainer.removeViewAt(overlayContainer.getChildCount() - 1);
-    }
 
 }

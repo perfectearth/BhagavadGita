@@ -51,6 +51,7 @@ public class QuizAll extends AppCompatActivity {
     private SessionManager sessionManager;
     private View optionQuiz;
     private BottomNavigationView bottomNavQuiz;
+    private Fragment activeFragment;
 
 
     @Override
@@ -76,7 +77,7 @@ public class QuizAll extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        
+
         quizShow = findViewById(R.id.quiz_start);
         examShow = findViewById(R.id.exam_start);
 
@@ -128,58 +129,87 @@ public class QuizAll extends AppCompatActivity {
                 }
             }
         });
+        setupBottomNavigation();
 
+    }
+
+    private void switchToFragment1() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Fragment fragment1 = fragmentManager.findFragmentByTag("fragment1");
+        Fragment fragment2 = fragmentManager.findFragmentByTag("fragment2");
+        if (fragment1 == null) {
+            fragment1 = new ScoreFragment();
+            transaction.add(R.id.overlay_quiz, fragment1, "fragment1");
+        }
+        if (fragment2 != null) {
+            transaction.hide(fragment2);
+        }
+        transaction.show(fragment1);
+        transaction.commit();
+        activeFragment = fragment1;
+    }
+
+    private void switchToFragment2() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Fragment fragment1 = fragmentManager.findFragmentByTag("fragment1");
+        Fragment fragment2 = fragmentManager.findFragmentByTag("fragment2");
+        if (fragment2 == null) {
+            fragment2 = new ProfileFragment();
+            transaction.add(R.id.overlay_quiz, fragment2, "fragment2");
+        }
+        if (fragment1 != null) {
+            transaction.hide(fragment1);
+        }
+        transaction.show(fragment2);
+        transaction.commit();
+        activeFragment = fragment2;
+    }
+
+    private void setupBottomNavigation() {
         bottomNavQuiz.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.quiz_home:
-                        if (optionQuiz.getVisibility()==View.GONE){
+                        if (optionQuiz.getVisibility() == View.GONE) {
                             optionQuiz.setVisibility(View.VISIBLE);
                         }
-                        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        if (activeFragment != null) {
+                            getSupportFragmentManager().beginTransaction().remove(activeFragment).commit();
+                            activeFragment = null;
+                        }
                         return true;
                     case R.id.menu_board:
-                        if (optionQuiz.getVisibility()==View.VISIBLE){
-                            optionQuiz.setVisibility(GONE);
+                        if (optionQuiz.getVisibility() == View.VISIBLE) {
+                            optionQuiz.setVisibility(View.GONE);
                         }
-                        showFragment(getSupportFragmentManager().findFragmentByTag("fragment1"));
+                        switchToFragment1();
                         return true;
-
                     case R.id.menu_profile:
-                        showFragment(getSupportFragmentManager().findFragmentByTag("fragment2"));
-                        if (optionQuiz.getVisibility()==View.VISIBLE){
-                            optionQuiz.setVisibility(GONE);
+                        switchToFragment2();
+                        if (optionQuiz.getVisibility() == View.VISIBLE) {
+                            optionQuiz.setVisibility(View.GONE);
                         }
                         return true;
                 }
                 return false;
             }
         });
-        setupFragments();
     }
-
     @Override
-    protected void onStart() {
-        super.onStart();
+    public void onBackPressed() {
+        if (activeFragment != null) {
+            getSupportFragmentManager().beginTransaction().remove(activeFragment).commit();
+            activeFragment = null;
+            if (optionQuiz.getVisibility() == View.GONE) {
+                optionQuiz.setVisibility(View.VISIBLE);
+            }
+            bottomNavQuiz.setSelectedItemId(R.id.quiz_home);
+        } else {
+            super.onBackPressed();
+        }
     }
 
-    private void showFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.overlay_quiz, fragment)
-                .commit();
-    }
-
-    private void setupFragments() {
-        Fragment fragment1 = new ScoreFragment();
-        Fragment fragment2 = new ProfileFragment();
-        showFragment(fragment1);
-        // Add the fragments to the view hierarchy but hide them
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.overlay_quiz, fragment1)
-                .hide(fragment1)
-                .add(R.id.overlay_quiz, fragment2)
-                .hide(fragment2)
-                .commit();
-    }
 }
