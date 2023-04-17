@@ -281,10 +281,10 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
                         int numQuizItems = quizAllArra.length();
                         ChapterItem item = new ChapterItem();
                         item.setChapterName(chapterDetails);
-                        item.setChapterCount(String.valueOf(numQuizItems+" টি কুইজ"));
+                        item.setChapterCount(String.valueOf(numQuizItems+" টি কুইজ।"));
                         catalogList.add(item);
                         CustomProgress.hideProgressBar();
-                        quizAdapter = new ChapterAdapter(catalogList, Quizprocess.this);
+                        quizAdapter = new ChapterAdapter(Quizprocess.this,catalogList, Quizprocess.this);
                         quizRecycler.setAdapter(quizAdapter);
                         arryQuestion = new JSONArray(response.toString());
                         if (animationView.getVisibility() == View.VISIBLE){

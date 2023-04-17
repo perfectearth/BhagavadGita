@@ -177,7 +177,7 @@ public class HomeFragment extends Fragment implements ChapterAdapter.OnItemClick
                 ChapterItem item = new ChapterItem(name,countText);
                 chapterList.add(item);
             }
-            chapterAdapter = new ChapterAdapter(chapterList,this);
+            chapterAdapter = new ChapterAdapter(getContext(),chapterList,this);
             chapterView.setAdapter(chapterAdapter);
             stopDialog();
 

@@ -26,26 +26,29 @@
                     app:cardElevation="@dimen/dp_10"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <RelativeLayout
-                        android:layout_height="match_parent"
-                        android:layout_width="match_parent">
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp">
+
                         <ImageButton
+                            android:id="@+id/quiz_start"
                             android:layout_width="@dimen/dp_50"
                             android:layout_height="@dimen/dp_50"
-                            android:focusable="true"
-                            android:id="@+id/quiz_start"
+                            android:layout_above="@+id/text_btn1"
                             android:layout_centerHorizontal="true"
-                            android:src="@drawable/arrow_forward"
                             android:background="@drawable/button_ripple"
-                            android:layout_above="@+id/text_btn1"/>
+                            android:focusable="true"
+                            android:src="@drawable/arrow_forward" />
+
                         <TextView
                             android:id="@+id/text_btn1"
-                            android:layout_alignParentBottom="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="@dimen/dp_20"
-                            android:text="@string/quiz"/>
+                            android:text="@string/quiz" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>

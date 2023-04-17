@@ -39,23 +39,23 @@
         <CheckBox
             android:layout_gravity="end"
             android:id="@+id/bookCheck"
-            android:layout_marginEnd="@dimen/dp_5"
+            android:layout_margin="@dimen/dp_5"
             android:layout_width="wrap_content"
+            android:background="@drawable/button_ripple"
             android:layout_height="wrap_content"
             android:button="@drawable/select_bookmarks_check"
             android:buttonTint="@color/purple_200"
             android:checked="false"/>
         <ImageButton
             android:layout_gravity="end"
-            android:padding="@dimen/dp_5"
+            android:padding="@dimen/dp_10"
             android:layout_alignEnd="@+id/txt_details"
             android:layout_marginEnd="@dimen/dp_5"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/verse_font"
             android:background="@drawable/button_ripple"
             android:src="@drawable/setup_font"
-            android:scaleType="fitCenter"
             android:focusable="true"/>
 
     </androidx.appcompat.widget.Toolbar>

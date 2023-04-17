@@ -1,8 +1,13 @@
 package com.perfectearth.bhagavadgita.Adapter;
 
+import static java.security.AccessController.getContext;
+
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -11,19 +16,22 @@ import com.perfectearth.bhagavadgita.AdapterItem.ChapterItem;
 import com.perfectearth.bhagavadgita.R;
 import com.perfectearth.bhagavadgita.Utilis.ChapterAll;
 
+import java.security.AccessControlContext;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder> {
 
+    private Context mContext;
     private final ArrayList<ChapterItem> chapterItem;
     private final OnItemClickListener mListener;
 
-    public ChapterAdapter(ArrayList<ChapterItem> chapterItem, OnItemClickListener mListener) {
+
+    public ChapterAdapter(Context mContext, ArrayList<ChapterItem> chapterItem, OnItemClickListener mListener) {
+        this.mContext = mContext;
         this.chapterItem = chapterItem;
         this.mListener = mListener;
     }
-
 
     @NonNull
     @Override
@@ -45,6 +53,16 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
         if (chapterNumber >= 1 && chapterNumber <= chapterNames.size()) {
             String chapterName = chapterNames.get(chapterNumber - 1);
             holder.serialChapter.setText(chapterName);
+        }
+        String count = currentItem.getChapterCount();
+        String lastWord = count.substring(count.lastIndexOf(" ") + 1);
+
+        if (lastWord.equals("শ্লোক।")) {
+            Drawable iconDrawable = mContext.getResources().getDrawable(R.drawable.list_icon);
+            holder.iconAll.setImageDrawable(iconDrawable);
+        } else {
+            Drawable iconDrawable = mContext.getResources().getDrawable(R.drawable.icon_check);
+            holder.iconAll.setImageDrawable(iconDrawable);
         }
 
         holder.countChapter.setText(currentItem.getChapterCount());
@@ -73,6 +91,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
 
     public class ChapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView nameChapter;
+        public ImageView iconAll;
         public TextView serialChapter;
         public TextView countChapter;
         public CardView chapterClick;
@@ -84,6 +103,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
             serialChapter = itemView.findViewById(R.id.chapter_serial);
             countChapter = itemView.findViewById(R.id.chapter_count);
             chapterClick = itemView.findViewById(R.id.chapter_click);
+            iconAll = itemView.findViewById(R.id.chapter_icon);
             mListener = listener;
             chapterClick.setOnClickListener(this);
 
