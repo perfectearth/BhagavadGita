@@ -11,6 +11,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -37,15 +39,28 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.perfectearth.bhagavadgita.Adapter.ChapterAdapter;
+import com.perfectearth.bhagavadgita.Adapter.ScoreAdapter;
+import com.perfectearth.bhagavadgita.AdapterItem.ChapterItem;
+import com.perfectearth.bhagavadgita.AdapterItem.ItemScore;
 import com.perfectearth.bhagavadgita.Fragment.ProfileFragment;
 import com.perfectearth.bhagavadgita.Fragment.ScoreFragment;
+import com.perfectearth.bhagavadgita.Utilis.CustomProgress;
 import com.perfectearth.bhagavadgita.Utilis.SessionManager;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class QuizAll extends AppCompatActivity {
 
+    private ScoreAdapter scoreAdapter;
+    private ArrayList<ItemScore> itemScoreList;
+    private RecyclerView scoreRecycler;
     private Toolbar quizToolbar;
     private ImageButton quizShow,examShow;
     private SessionManager sessionManager;
@@ -80,6 +95,13 @@ public class QuizAll extends AppCompatActivity {
         }else {
             phone = sessionManager.getPhone();
         }
+
+        scoreRecycler = findViewById(R.id.recycler_score);
+        scoreRecycler.setLayoutManager(new LinearLayoutManager(this));
+        scoreRecycler.setNestedScrollingEnabled(false);
+        itemScoreList = new ArrayList<>();
+
+
 
         quizShow = findViewById(R.id.quiz_start);
         examShow = findViewById(R.id.exam_start);
@@ -222,10 +244,34 @@ public class QuizAll extends AppCompatActivity {
     }
 
     private void getData(String phone) {
+        if (itemScoreList!=null){
+            itemScoreList.clear();
+        }
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(QuizAll.this, response, Toast.LENGTH_SHORT).show();
+                try {
+                    JSONArray jsonArrayResult = new JSONArray(response);
+                    for (int i = 0; i < jsonArrayResult.length(); i++) {
+                        JSONObject jsonObject = jsonArrayResult.getJSONObject(i);
+                        String scoreChapter= jsonObject.getString("chapter");
+                        String scoreWrong = jsonObject.getString("wrong");
+                        String scoreTotal = jsonObject.getString("total");
+                        String scoreCorrect = jsonObject.getString("correct");
+                        Toast.makeText(QuizAll.this,scoreTotal,Toast.LENGTH_SHORT).show();
+                        ItemScore item = new ItemScore();
+                        item.setScoreChapter(scoreChapter);
+                        item.setScoreWrong(scoreWrong);
+                        item.setScoreTotal(scoreTotal);
+                        item.setScoreCorrect(scoreCorrect);
+                        itemScoreList.add(item);
+                        scoreAdapter = new ScoreAdapter(QuizAll.this,itemScoreList);
+                        scoreRecycler.setAdapter(scoreAdapter);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
             }
         }, new Response.ErrorListener() {
             @Override

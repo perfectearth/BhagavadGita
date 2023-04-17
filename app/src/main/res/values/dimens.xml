@@ -26,4 +26,5 @@
     <dimen name="dp_65">65dp</dimen>
     <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_200">200dp</dimen>
+    <dimen name="dp_90">90dp</dimen>
 </resources>

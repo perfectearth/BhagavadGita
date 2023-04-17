@@ -147,9 +147,9 @@
         android:id="@+id/play_text"
         android:text="@string/details_play"/>
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@+id/play_text"
-        android:layout_marginTop="@dimen/dp_10"
+        android:id="@+id/recycler_score"
         android:layout_marginHorizontal="@dimen/dp_25"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
