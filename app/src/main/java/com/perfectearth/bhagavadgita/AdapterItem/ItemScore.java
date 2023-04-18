@@ -1,24 +1,24 @@
 package com.perfectearth.bhagavadgita.AdapterItem;
 
 public class ItemScore {
-    String ScoreTotal ,ScoreWrong,ScoreChapter,ScoreCorrect;
+    String quesTotal, ScoreWrong, ScoreChapter, ScoreCorrect;
 
     public ItemScore() {
     }
 
-    public ItemScore(String scoreTotal, String scoreWrong, String scoreChapter, String scoreCorrect) {
-        ScoreTotal = scoreTotal;
+    public ItemScore(String quesTotal, String scoreWrong, String scoreChapter, String scoreCorrect) {
+        this.quesTotal = quesTotal;
         ScoreWrong = scoreWrong;
         ScoreChapter = scoreChapter;
         ScoreCorrect = scoreCorrect;
     }
 
-    public String getScoreTotal() {
-        return ScoreTotal;
+    public String getQuesTotal() {
+        return quesTotal;
     }
 
-    public void setScoreTotal(String scoreTotal) {
-        ScoreTotal = scoreTotal;
+    public void setQuesTotal(String quesTotal) {
+        this.quesTotal = quesTotal;
     }
 
     public String getScoreWrong() {

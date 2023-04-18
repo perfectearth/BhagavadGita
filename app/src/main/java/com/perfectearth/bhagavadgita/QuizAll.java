@@ -1,31 +1,24 @@
 package com.perfectearth.bhagavadgita;
 
-import static android.view.View.GONE;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -39,19 +32,14 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.perfectearth.bhagavadgita.Adapter.ChapterAdapter;
 import com.perfectearth.bhagavadgita.Adapter.ScoreAdapter;
-import com.perfectearth.bhagavadgita.AdapterItem.ChapterItem;
 import com.perfectearth.bhagavadgita.AdapterItem.ItemScore;
 import com.perfectearth.bhagavadgita.Fragment.ProfileFragment;
 import com.perfectearth.bhagavadgita.Fragment.ScoreFragment;
-import com.perfectearth.bhagavadgita.Utilis.CustomProgress;
 import com.perfectearth.bhagavadgita.Utilis.SessionManager;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -252,17 +240,16 @@ public class QuizAll extends AppCompatActivity {
             public void onResponse(String response) {
                 try {
                     JSONArray jsonArrayResult = new JSONArray(response);
-                    for (int i = 0; i < jsonArrayResult.length(); i++) {
+                    for (int i = 1; i < jsonArrayResult.length(); i++) {
                         JSONObject jsonObject = jsonArrayResult.getJSONObject(i);
                         String scoreChapter= jsonObject.getString("chapter");
                         String scoreWrong = jsonObject.getString("wrong");
                         String scoreTotal = jsonObject.getString("total");
                         String scoreCorrect = jsonObject.getString("correct");
-                        Toast.makeText(QuizAll.this,scoreTotal,Toast.LENGTH_SHORT).show();
                         ItemScore item = new ItemScore();
                         item.setScoreChapter(scoreChapter);
                         item.setScoreWrong(scoreWrong);
-                        item.setScoreTotal(scoreTotal);
+                        item.setQuesTotal(scoreTotal);
                         item.setScoreCorrect(scoreCorrect);
                         itemScoreList.add(item);
                         scoreAdapter = new ScoreAdapter(QuizAll.this,itemScoreList);
