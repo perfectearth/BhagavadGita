@@ -37,7 +37,9 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ScoreAdapter.ViewHolder holder, int position) {
-        if (position > 0) {
+        if (position== 0) {
+            holder.itemView.setVisibility(View.GONE);
+        }else {
             ItemScore itemScore = itemScoresList.get(position);
             holder.scoreText.setText(itemScore.getScoreTotal());
             holder.chapterName.setText(itemScore.getScoreChapter());
