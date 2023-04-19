@@ -1,14 +1,13 @@
 package com.perfectearth.bhagavadgita.AdapterItem;
 
 public class ItemScore {
-    String quesTotal, ScoreWrong, ScoreChapter, ScoreCorrect;
+    String quesTotal, ScoreChapter, ScoreCorrect;
 
     public ItemScore() {
     }
 
-    public ItemScore(String quesTotal, String scoreWrong, String scoreChapter, String scoreCorrect) {
+    public ItemScore(String quesTotal, String scoreChapter, String scoreCorrect) {
         this.quesTotal = quesTotal;
-        ScoreWrong = scoreWrong;
         ScoreChapter = scoreChapter;
         ScoreCorrect = scoreCorrect;
     }
@@ -19,14 +18,6 @@ public class ItemScore {
 
     public void setQuesTotal(String quesTotal) {
         this.quesTotal = quesTotal;
-    }
-
-    public String getScoreWrong() {
-        return ScoreWrong;
-    }
-
-    public void setScoreWrong(String scoreWrong) {
-        ScoreWrong = scoreWrong;
     }
 
     public String getScoreChapter() {

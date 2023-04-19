@@ -8,10 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -21,7 +18,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -35,11 +31,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -48,7 +42,6 @@ import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.snackbar.Snackbar;
 import com.perfectearth.bhagavadgita.Adapter.ChapterAdapter;
-import com.perfectearth.bhagavadgita.Adapter.ExamAdapter;
 import com.perfectearth.bhagavadgita.AdapterItem.ChapterItem;
 import com.perfectearth.bhagavadgita.AdapterItem.CommonQuiz;
 import com.perfectearth.bhagavadgita.AdapterItem.Question;
@@ -79,7 +72,7 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
     private ArrayList<ChapterItem> catalogList;
     private JSONArray arryQuestion;
     private View  currentView, showQuiz,showCatalog,rootView;
-    private int index=0,thisQuestion=0,totalQuestion, correctAns=0,playChapter=0,wrongAns=0;
+    private int index=0,thisQuestion=0,totalQuestion, correctAns=0,playChapter=0;
     private final static long INTERVAL = 1000;
     private final static long TIMEOUT = 30000;
     private int counValue = 0;
@@ -169,12 +162,14 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
                 onBackPressed();
             }
         });
+        nextQuestion.setEnabled(false);
         nextQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String nameButton = nextQuestion.getText().toString();
                 if (nameButton.equals("Next Question")) {
                     showQuestion(++index);
+                    nextQuestion.setEnabled(false);
 
                 }else {
                     switchLayouts(showCatalog);
@@ -185,7 +180,7 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                     String formattedDate = dateFormat.format(currentDate);
 
-                    submitData(phone,formattedDate,correctAns,playChapter,totalQuestion,correctAns,wrongAns);
+                    submitData(phone,formattedDate,correctAns,playChapter,totalQuestion,correctAns);
                     CustomProgress.showProgressBar(Quizprocess.this,false,"Wait...");
                     index=0;
                     thisQuestion=0;
@@ -195,6 +190,12 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
 
         CustomProgress.showProgressBar(this,false,"Wait..");
         getQuizFile();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 
     private void interAds() {
@@ -238,11 +239,12 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    private void submitData(String phonea,String date,int cor , int playChapter,int QuesTotal, int correct,int wrong ) {
+    private void submitData(String phonea,String date,int cor , int playChapter,int QuesTotal, int correct) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 CustomProgress.hideProgressBar();
+                Toast.makeText(Quizprocess.this,response,Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {
@@ -260,9 +262,8 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
                 params.put("total_score", String.valueOf(cor));
                 params.put("play_date", String.valueOf(date));
                 params.put("chapter", String.valueOf(playChapter));
-                params.put("total", String.valueOf(QuesTotal));
                 params.put("correct", String.valueOf(correct));
-                params.put("wrong", String.valueOf(wrong));
+                params.put("total", String.valueOf(QuesTotal));
                 return params;
             }
         };
@@ -364,7 +365,6 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
             switchLayouts(showQuiz);
             playChapter = Integer.parseInt(position);
             correctAns=0;
-            wrongAns=0;
         }
     }
 
@@ -513,6 +513,7 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         mCountDown.cancel();
+        nextQuestion.setEnabled(true);
         if (index < totalQuestion) {
             Button clickedButton = (Button) v;
             disableButtonsExcept(clickedButton);
@@ -535,7 +536,6 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
                     correctAns++;
                 } else {
                     optionButtons[i].setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.red)));
-                    wrongAns++;
                     checkAnswer("Wrong");
                 }
             }

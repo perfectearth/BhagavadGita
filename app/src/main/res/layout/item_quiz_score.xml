@@ -8,17 +8,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_90">
+        android:layout_height="@dimen/dp_70">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_first"
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_60"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
             android:layout_marginStart="@dimen/dp_10"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_5"
+            android:layout_marginEnd="@dimen/dp_5"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_5"
             app:cardCornerRadius="@dimen/dp_10"
             app:cardElevation="@dimen/dp_5">
 
@@ -30,13 +30,14 @@
                 android:src="@drawable/quiz_image"
                 android:text="@string/chapter"
                 android:textAlignment="center" />
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
             android:layout_toEndOf="@+id/card_first"
             android:layout_toStartOf="@+id/prog_score"
             android:orientation="vertical"
             android:weightSum="2"
+            android:layout_marginStart="@dimen/dp_10"
             android:layout_marginVertical="@dimen/dp_10"
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
@@ -70,7 +71,7 @@
                 android:id="@+id/progress_score"
                 android:layout_centerVertical="true"
                 app:indicatorColor="?attr/colorPrimary"
-                app:indicatorSize="@dimen/dp_70"
+                app:indicatorSize="@dimen/dp_60"
                 app:trackColor="@color/white1"
                 app:trackThickness="@dimen/dp_5" />
 

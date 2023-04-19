@@ -14,7 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.perfectearth.bhagavadgita.AdapterItem.BookMarkItem;
 import com.perfectearth.bhagavadgita.AdapterItem.ItemScore;
 import com.perfectearth.bhagavadgita.R;
+import com.perfectearth.bhagavadgita.Utilis.ChapterAll;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ViewHolder> {
@@ -37,9 +41,25 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ScoreAdapter.ViewHolder holder, int position) {
-        ItemScore itemScore = itemScoresList.get(position);
+        List<ItemScore> itemScoresListSorted = new ArrayList<>(itemScoresList);
+        Collections.sort(itemScoresListSorted, new Comparator<ItemScore>() {
+            @Override
+            public int compare(ItemScore o1, ItemScore o2) {
+                return Integer.parseInt(o1.getScoreChapter()) - Integer.parseInt(o2.getScoreChapter());
+            }
+        });
+
+        ItemScore itemScore = itemScoresListSorted.get(position);
+        String number = itemScore.getScoreChapter();
+        ChapterAll chapters = new ChapterAll();
+        List<String> chapterNames = chapters.getChapterNames();
+        int chapterNumber = Integer.parseInt(number);
+        if (chapterNumber >= 1 && chapterNumber <= chapterNames.size()) {
+            String chapterName = chapterNames.get(chapterNumber - 1);
+            holder.chapterName.setText(chapterName);
+        }
+
         holder.scoreText.setText(itemScore.getQuesTotal());
-        holder.chapterName.setText(itemScore.getScoreChapter());
         holder.scoreDetails.setText(itemScore.getScoreCorrect());
 
     }

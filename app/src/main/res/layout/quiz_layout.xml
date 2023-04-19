@@ -137,20 +137,5 @@
         android:layout_height="wrap_content"
         app:dividerInsetStart="16dp"
         app:dividerInsetEnd="16dp"/>
-    <TextView
-        android:layout_below="@id/top_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_10"
-        android:padding="@dimen/dp_10"
-        android:textStyle="bold"
-        android:id="@+id/play_text"
-        android:text="@string/details_play"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@+id/play_text"
-        android:id="@+id/recycler_score"
-        android:layout_marginHorizontal="@dimen/dp_25"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 </RelativeLayout>

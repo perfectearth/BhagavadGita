@@ -727,18 +727,18 @@ public class VerseActivity extends AppCompatActivity implements GestureDetector.
                         String banglaNumber = BanglaNumberUtils.toBanglaNumber(Integer.parseInt(serial));
                         allHideSetupLoad();
                         if (chapterNo.equals("19")){
-                            bookBox.setVisibility(View.INVISIBLE);
+                            bookBox.setVisibility(View.GONE);
                             verseText.setText(titleVerse+banglaNumber);
                             bengaliTitle.setText(R.string.bangla_unubad);
                         }else {
                             if (i == length - 1) {
-                                bookBox.setVisibility(View.INVISIBLE);
+                                bookBox.setVisibility(View.GONE);
                                 songskritLin.setVisibility(View.GONE);
                                 banglaPodohLin.setVisibility(View.GONE);
                                 verseText.setText(modifiedChapterName);
                                 bengaliTitle.setText("সার-সংক্ষেপ");
                             }else {
-                                if (bookBox.getVisibility() == View.INVISIBLE){
+                                if (bookBox.getVisibility() == View.GONE){
                                     bookBox.setVisibility(View.VISIBLE);
                                     if (checkS.equals("Gone")){
                                         songskritLin.setVisibility(View.GONE);

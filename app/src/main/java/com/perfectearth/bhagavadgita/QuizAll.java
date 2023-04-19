@@ -46,16 +46,14 @@ import java.util.Map;
 
 public class QuizAll extends AppCompatActivity {
 
-    private ScoreAdapter scoreAdapter;
-    private ArrayList<ItemScore> itemScoreList;
-    private RecyclerView scoreRecycler;
+
     private Toolbar quizToolbar;
     private ImageButton quizShow,examShow;
     private SessionManager sessionManager;
     private View optionQuiz;
     private BottomNavigationView bottomNavQuiz;
     private Fragment activeFragment;
-    private String url , phone;
+
 
 
     @Override
@@ -74,22 +72,12 @@ public class QuizAll extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
         optionQuiz = findViewById(R.id.quiz_option);
-        url = getString(R.string.quiz_link);
         if (!sessionManager.isLoggedIn()) {
             sessionManager.clearSession();
             Intent intent = new Intent(this, UserRegister.class);
             startActivity(intent);
             finish();
-        }else {
-            phone = sessionManager.getPhone();
         }
-
-        scoreRecycler = findViewById(R.id.recycler_score);
-        scoreRecycler.setLayoutManager(new LinearLayoutManager(this));
-        scoreRecycler.setNestedScrollingEnabled(false);
-        itemScoreList = new ArrayList<>();
-
-
 
         quizShow = findViewById(R.id.quiz_start);
         examShow = findViewById(R.id.exam_start);
@@ -225,57 +213,5 @@ public class QuizAll extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        getData(phone);
-    }
-
-    private void getData(String phone) {
-        if (itemScoreList!=null){
-            itemScoreList.clear();
-        }
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONArray jsonArrayResult = new JSONArray(response);
-                    for (int i = 1; i < jsonArrayResult.length(); i++) {
-                        JSONObject jsonObject = jsonArrayResult.getJSONObject(i);
-                        String scoreChapter= jsonObject.getString("chapter");
-                        String scoreWrong = jsonObject.getString("wrong");
-                        String scoreTotal = jsonObject.getString("total");
-                        String scoreCorrect = jsonObject.getString("correct");
-                        ItemScore item = new ItemScore();
-                        item.setScoreChapter(scoreChapter);
-                        item.setScoreWrong(scoreWrong);
-                        item.setQuesTotal(scoreTotal);
-                        item.setScoreCorrect(scoreCorrect);
-                        itemScoreList.add(item);
-                        scoreAdapter = new ScoreAdapter(QuizAll.this,itemScoreList);
-                        scoreRecycler.setAdapter(scoreAdapter);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(QuizAll.this, "s "+error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("phone", phone);
-                params.put("action","list_score");
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
 
 }
