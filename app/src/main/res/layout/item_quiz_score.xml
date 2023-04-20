@@ -8,16 +8,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_70">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_first"
-            android:layout_width="@dimen/dp_50"
-            android:layout_height="@dimen/dp_50"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_10"
+            android:layout_centerVertical="true"
             android:layout_marginTop="@dimen/dp_5"
             android:layout_marginEnd="@dimen/dp_5"
-            android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/dp_5"
             app:cardCornerRadius="@dimen/dp_10"
             app:cardElevation="@dimen/dp_5">
@@ -26,6 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:padding="@dimen/dp_5"
                 android:id="@+id/text_score_chapter"
                 android:src="@drawable/quiz_image"
                 android:text="@string/chapter"
@@ -37,10 +38,11 @@
             android:layout_toStartOf="@+id/prog_score"
             android:orientation="vertical"
             android:weightSum="2"
+            android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/dp_10"
             android:layout_marginVertical="@dimen/dp_10"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <TextView
                 android:textSize="@dimen/sp_18"
                 android:gravity="center_vertical"
@@ -63,7 +65,7 @@
             android:layout_marginEnd="@dimen/dp_5"
             android:id="@+id/prog_score"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true">
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:layout_width="wrap_content"
