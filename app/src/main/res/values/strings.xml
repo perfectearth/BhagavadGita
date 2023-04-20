@@ -99,4 +99,6 @@
     <string name="leaderboard">Leader Board</string>
     <string name="profile">Profile</string>
     <string name="category_quiz">Categories</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
