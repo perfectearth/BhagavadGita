@@ -53,6 +53,8 @@ public class QuizAll extends AppCompatActivity {
     private View optionQuiz;
     private BottomNavigationView bottomNavQuiz;
     private Fragment activeFragment;
+    private AppBarLayout appBarLayoutQuiz;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
 
 
 
@@ -86,12 +88,12 @@ public class QuizAll extends AppCompatActivity {
         bottomNavQuiz = findViewById(R.id.bottom_navi_quiz);
 
 
-        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_quiz);
+        collapsingToolbarLayout = findViewById(R.id.collapsing_quiz);
         collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(this, R.color.purple_500));
         collapsingToolbarLayout.setExpandedTitleMarginStart(getResources().getDimensionPixelSize(R.dimen.dp_10));
         collapsingToolbarLayout.setExpandedTitleMarginEnd(getResources().getDimensionPixelSize(R.dimen.dp_10));
 
-        AppBarLayout appBarLayout = findViewById(R.id.app_bar_quiz);
+        appBarLayoutQuiz = findViewById(R.id.app_bar_quiz);
         quizShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +115,7 @@ public class QuizAll extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        appBarLayoutQuiz.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
 
@@ -181,18 +183,21 @@ public class QuizAll extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction().remove(activeFragment).commit();
                             activeFragment = null;
                         }
+                        appBarLayoutQuiz.addView(collapsingToolbarLayout);
                         return true;
                     case R.id.menu_board:
                         if (optionQuiz.getVisibility() == View.VISIBLE) {
                             optionQuiz.setVisibility(View.GONE);
                         }
                         switchToFragment1();
+                        appBarLayoutQuiz.removeView(collapsingToolbarLayout);
                         return true;
                     case R.id.menu_profile:
-                        switchToFragment2();
                         if (optionQuiz.getVisibility() == View.VISIBLE) {
                             optionQuiz.setVisibility(View.GONE);
                         }
+                        appBarLayoutQuiz.removeView(collapsingToolbarLayout);
+                        switchToFragment2();
                         return true;
                 }
                 return false;
