@@ -1,10 +1,14 @@
 package com.perfectearth.bhagavadgita.Fragment;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
@@ -14,12 +18,12 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toolbar;
 
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.perfectearth.bhagavadgita.R;
+import com.perfectearth.bhagavadgita.Utilis.ZoomOutPageTransformer;
+
 public class ScoreFragment extends Fragment {
 
     public ScoreFragment() {
@@ -27,16 +31,30 @@ public class ScoreFragment extends Fragment {
 
     private TabLayout scoreTabLayout;
     private ViewPager2 scoreViewPager;
+    private Toolbar scoreToolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewScore = inflater.inflate(R.layout.fragment_score, container, false);
+
+        scoreToolbar = viewScore.findViewById(R.id.toolbar_score);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(scoreToolbar);
+
+        final Drawable upArrow = ResourcesCompat.getDrawable(getResources(), R.drawable.arrow_back_24, null);
+        upArrow.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
+        activity.getSupportActionBar().setHomeAsUpIndicator(upArrow);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         scoreTabLayout = viewScore.findViewById(R.id.tab_layout_leader);
         scoreViewPager = viewScore.findViewById(R.id.view_pager_leader);
 
         // Set up the ViewPager2 adapter
         FragmentAdapter adapter = new FragmentAdapter(getChildFragmentManager(), getLifecycle());
         scoreViewPager.setAdapter(adapter);
+        scoreViewPager.setPageTransformer(new ZoomOutPageTransformer());
+        scoreViewPager.setUserInputEnabled(false);
 
         // Link the TabLayout to the ViewPager2
         new TabLayoutMediator(scoreTabLayout, scoreViewPager,
@@ -77,5 +95,6 @@ public class ScoreFragment extends Fragment {
             return NUM_TABS;
         }
     }
+
 
 }

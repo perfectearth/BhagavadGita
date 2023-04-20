@@ -60,5 +60,11 @@
         <item name="android:background">@drawable/round_top</item>
     </style>
 
+    <style name="MyTabLayoutStyle" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabIndicator">@null</item>
+        <item name="tabIndicatorColor">@null</item>
+        <item name="tabIndicatorGravity">center</item>
+        <item name="tabRippleColor">@android:color/transparent</item>
+    </style>
 
 </resources>

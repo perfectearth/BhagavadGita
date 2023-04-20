@@ -27,4 +27,6 @@
     <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_200">200dp</dimen>
     <dimen name="dp_90">90dp</dimen>
+    <dimen name="dp_140">140dp</dimen>
+    <dimen name="dp_2">2dp</dimen>
 </resources>

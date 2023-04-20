@@ -9,8 +9,12 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -37,6 +41,8 @@ import com.perfectearth.bhagavadgita.AdapterItem.ItemScore;
 import com.perfectearth.bhagavadgita.Fragment.ProfileFragment;
 import com.perfectearth.bhagavadgita.Fragment.ScoreFragment;
 import com.perfectearth.bhagavadgita.Utilis.SessionManager;
+import com.perfectearth.bhagavadgita.Utilis.ZoomOutPageTransformer;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,15 +54,14 @@ public class QuizAll extends AppCompatActivity {
 
 
     private Toolbar quizToolbar;
-    private ImageButton quizShow,examShow;
+    private ImageButton quizShow, examShow;
     private SessionManager sessionManager;
     private View optionQuiz;
     private BottomNavigationView bottomNavQuiz;
     private Fragment activeFragment;
     private AppBarLayout appBarLayoutQuiz;
     private CollapsingToolbarLayout collapsingToolbarLayout;
-
-
+    private boolean isCollapsingToolbarAdded = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +132,7 @@ public class QuizAll extends AppCompatActivity {
                 }
                 if (scrollRange + verticalOffset == 0) {
                     isShow = true;
-                } else if(isShow) {
+                } else if (isShow) {
                     isShow = false;
                 }
             }
@@ -139,6 +144,7 @@ public class QuizAll extends AppCompatActivity {
     private void switchToFragment1() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
         Fragment fragment1 = fragmentManager.findFragmentByTag("fragment1");
         Fragment fragment2 = fragmentManager.findFragmentByTag("fragment2");
         if (fragment1 == null) {
@@ -156,6 +162,7 @@ public class QuizAll extends AppCompatActivity {
     private void switchToFragment2() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
         Fragment fragment1 = fragmentManager.findFragmentByTag("fragment1");
         Fragment fragment2 = fragmentManager.findFragmentByTag("fragment2");
         if (fragment2 == null) {
@@ -183,27 +190,44 @@ public class QuizAll extends AppCompatActivity {
                             getSupportFragmentManager().beginTransaction().remove(activeFragment).commit();
                             activeFragment = null;
                         }
-                        appBarLayoutQuiz.addView(collapsingToolbarLayout);
-                        return true;
+                        if (isCollapsingToolbarAdded) {
+                            // If the collapsingToolbarLayout is already added, we don't need to add it again.
+                            // We can just return.
+                            return true;
+                        } else {
+                            // If the collapsingToolbarLayout has not been added yet, we add it to the appBarLayoutQuiz.
+                            appBarLayoutQuiz.addView(collapsingToolbarLayout);
+                            isCollapsingToolbarAdded = true;
+                            return true;
+                        }
                     case R.id.menu_board:
                         if (optionQuiz.getVisibility() == View.VISIBLE) {
                             optionQuiz.setVisibility(View.GONE);
                         }
                         switchToFragment1();
-                        appBarLayoutQuiz.removeView(collapsingToolbarLayout);
+                        if (isCollapsingToolbarAdded) {
+                            // If the collapsingToolbarLayout is added, we need to remove it from the appBarLayoutQuiz.
+                            appBarLayoutQuiz.removeView(collapsingToolbarLayout);
+                            isCollapsingToolbarAdded = false;
+                        }
                         return true;
                     case R.id.menu_profile:
                         if (optionQuiz.getVisibility() == View.VISIBLE) {
                             optionQuiz.setVisibility(View.GONE);
                         }
-                        appBarLayoutQuiz.removeView(collapsingToolbarLayout);
                         switchToFragment2();
+                        if (isCollapsingToolbarAdded) {
+                            // If the collapsingToolbarLayout is added, we need to remove it from the appBarLayoutQuiz.
+                            appBarLayoutQuiz.removeView(collapsingToolbarLayout);
+                            isCollapsingToolbarAdded = false;
+                        }
                         return true;
                 }
                 return false;
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         if (activeFragment != null) {
@@ -217,6 +241,5 @@ public class QuizAll extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
 
 }

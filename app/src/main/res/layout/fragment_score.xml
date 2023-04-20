@@ -1,29 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!-- App bar layout -->
-    <com.google.android.material.appbar.AppBarLayout
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar_score"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <!-- Tab layout -->
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout_leader"
-            android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/purple_500">
+        <TextView
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/purple_700"
-            app:tabIndicatorColor="@color/white"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextColor="@color/white"/>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <!-- View pager -->
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16"
+            android:text="@string/leaderboard"/>
+    </com.google.android.material.appbar.MaterialToolbar>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout_leader"
+        style="@style/MyTabLayoutStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginHorizontal="@dimen/dp_20"
+        android:layout_marginVertical="@dimen/dp_5"
+        android:background="@drawable/tab_bg2"
+        app:tabGravity="fill"
+        app:tabInlineLabel="true"
+        app:tabIndicator="@drawable/tab_bg"
+        app:tabIndicatorGravity="stretch"
+        app:tabIndicatorHeight="@dimen/dp_60"
+        app:tabTextColor="@color/black" />
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager_leader"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
