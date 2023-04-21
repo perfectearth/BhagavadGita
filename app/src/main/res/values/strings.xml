@@ -85,9 +85,9 @@
     <string name="do_account">Don\'t have an account? Sing up</string>
     <string name="have_account">Have an Account? Sing in</string>
     <string name="email_hint">Input your Email</string>
-    <string name="register_link">https://banglabhagavad.com/gita_userlogin.php</string>
-    <string name="exam_link">https://banglabhagavad.com/exam_data.php</string>
-    <string name="quiz_link">https://banglabhagavad.com/quiz_data.php</string>
+    <string name="register_link">https://banglabhagavad.com/my_file/gita_userlogin.php</string>
+    <string name="exam_link">https://banglabhagavad.com/my_file/exam_data.php</string>
+    <string name="quiz_link">https://banglabhagavad.com/my_file/quiz_data.php</string>
     <string name="exam_score">Score Board</string>
     <string name="exam_start">Exam Sheet</string>
     <string name="details_play">You are played</string>

@@ -292,6 +292,7 @@ public class UserRegister extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Registration Success", Toast.LENGTH_LONG).show();
                     switchLayouts(login_view);
                 } else {
+                    CustomProgress.hideProgressBar();
                     Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
                 }
             }
