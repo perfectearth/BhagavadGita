@@ -84,7 +84,7 @@ public class QuizScoreFragment extends Fragment {
         String score = scoreObject.getString("monthly_score");
         String name = scoreObject.getString("name");
         nameView.setText(name);
-        scoreView.setText("Score : " + score);
+        scoreView.setText("Score\n" + score);
         char firstChar = name.charAt(0);
         String firstLetter = String.valueOf(firstChar);
         wordView.setText(firstLetter);

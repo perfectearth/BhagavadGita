@@ -31,21 +31,10 @@ public class ScoreFragment extends Fragment {
 
     private TabLayout scoreTabLayout;
     private ViewPager2 scoreViewPager;
-    private Toolbar scoreToolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewScore = inflater.inflate(R.layout.fragment_score, container, false);
-
-        scoreToolbar = viewScore.findViewById(R.id.toolbar_score);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.setSupportActionBar(scoreToolbar);
-
-        final Drawable upArrow = ResourcesCompat.getDrawable(getResources(), R.drawable.arrow_back_24, null);
-        upArrow.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
-        activity.getSupportActionBar().setHomeAsUpIndicator(upArrow);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         scoreTabLayout = viewScore.findViewById(R.id.tab_layout_leader);
         scoreViewPager = viewScore.findViewById(R.id.view_pager_leader);

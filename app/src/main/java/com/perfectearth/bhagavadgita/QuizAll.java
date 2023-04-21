@@ -132,6 +132,7 @@ public class QuizAll extends AppCompatActivity {
                 }
                 if (scrollRange + verticalOffset == 0) {
                     isShow = true;
+                    isCollapsingToolbarAdded = true;
                 } else if (isShow) {
                     isShow = false;
                 }
@@ -191,23 +192,19 @@ public class QuizAll extends AppCompatActivity {
                             activeFragment = null;
                         }
                         if (isCollapsingToolbarAdded) {
-                            // If the collapsingToolbarLayout is already added, we don't need to add it again.
-                            // We can just return.
-                            return true;
-                        } else {
-                            // If the collapsingToolbarLayout has not been added yet, we add it to the appBarLayoutQuiz.
-                            appBarLayoutQuiz.addView(collapsingToolbarLayout);
+                            collapsingToolbarLayout.setTitle("Exam & Quiz");
+                            appBarLayoutQuiz.setExpanded(true);
                             isCollapsingToolbarAdded = true;
-                            return true;
                         }
+                        return true;
                     case R.id.menu_board:
                         if (optionQuiz.getVisibility() == View.VISIBLE) {
                             optionQuiz.setVisibility(View.GONE);
                         }
                         switchToFragment1();
+                        collapsingToolbarLayout.setTitle("Leader Board");
                         if (isCollapsingToolbarAdded) {
-                            // If the collapsingToolbarLayout is added, we need to remove it from the appBarLayoutQuiz.
-                            appBarLayoutQuiz.removeView(collapsingToolbarLayout);
+                            appBarLayoutQuiz.setExpanded(false);
                             isCollapsingToolbarAdded = false;
                         }
                         return true;
@@ -216,9 +213,9 @@ public class QuizAll extends AppCompatActivity {
                             optionQuiz.setVisibility(View.GONE);
                         }
                         switchToFragment2();
+                        collapsingToolbarLayout.setTitle("Profile");
                         if (isCollapsingToolbarAdded) {
-                            // If the collapsingToolbarLayout is added, we need to remove it from the appBarLayoutQuiz.
-                            appBarLayoutQuiz.removeView(collapsingToolbarLayout);
+                            appBarLayoutQuiz.setExpanded(false);
                             isCollapsingToolbarAdded = false;
                         }
                         return true;

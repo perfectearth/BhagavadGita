@@ -78,12 +78,13 @@
                 android:src="@drawable/logo"
                 app:cardCornerRadius="@dimen/dp_25"
                 app:cardElevation="@dimen/dp_5">
+
                 <TextView
                     android:id="@+id/second_word"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="আ"
+                    android:text="B"
                     android:textSize="@dimen/sp_20"
                     android:textStyle="bold" />
             </com.google.android.material.card.MaterialCardView>
@@ -117,7 +118,7 @@
                     android:textAlignment="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/number"/>
+                    android:text="@string/number0"/>
             </com.google.android.material.card.MaterialCardView>
         </RelativeLayout>
         <RelativeLayout
@@ -144,7 +145,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="আ"
+                    android:text="B"
                     android:textSize="@dimen/sp_20"
                     android:textStyle="bold" />
             </com.google.android.material.card.MaterialCardView>
@@ -177,7 +178,7 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/number"/>
+                    android:text="@string/number0"/>
             </com.google.android.material.card.MaterialCardView>
         </RelativeLayout>
         <RelativeLayout
@@ -205,7 +206,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="আ"
+                    android:text="B"
                     android:textSize="@dimen/sp_20"
                     android:textStyle="bold" />
             </com.google.android.material.card.MaterialCardView>
@@ -238,7 +239,7 @@
                     android:id="@+id/third_score"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/number"/>
+                    android:text="@string/number0"/>
             </com.google.android.material.card.MaterialCardView>
         </RelativeLayout>
 
