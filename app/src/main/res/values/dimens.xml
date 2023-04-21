@@ -31,4 +31,5 @@
     <dimen name="dp_2">2dp</dimen>
     <dimen name="dp_160">160dp</dimen>
     <dimen name="dp_170">170dp</dimen>
+    <dimen name="sp_30">30sp</dimen>
 </resources>
