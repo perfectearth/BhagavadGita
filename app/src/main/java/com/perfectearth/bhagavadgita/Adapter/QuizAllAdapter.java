@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.perfectearth.bhagavadgita.AdapterItem.QuizItemAll;
 import com.perfectearth.bhagavadgita.R;
+import com.perfectearth.bhagavadgita.Utilis.OrdinalUtilis;
 
 import java.util.List;
 
@@ -35,15 +36,20 @@ public class QuizAllAdapter extends RecyclerView.Adapter<QuizAllAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull QuizAllAdapter.ViewHolder holder, int position) {
         QuizItemAll quizItemAll = quizItemAllList.get(position);
-        String serial = String.valueOf(position+4);
-        holder.serialText.setText(serial);
-
+        String suffix = OrdinalUtilis.getOrdinalSuffix(position+4);
+        String name = quizItemAll.getName();
+        char firstChar = name.charAt(0);
+        String firstLetter = String.valueOf(firstChar);
+        holder.serialText.setText(suffix);
+        holder.nameText.setText(name);
+        holder.scoreText.setText("Score : "+quizItemAll.getScore());
+        holder.nameWord.setText(firstLetter);
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return quizItemAllList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
