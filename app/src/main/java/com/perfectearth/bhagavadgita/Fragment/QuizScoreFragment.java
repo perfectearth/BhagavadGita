@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,8 @@ import com.perfectearth.bhagavadgita.AdapterItem.QuizItemAll;
 import com.perfectearth.bhagavadgita.Quizprocess;
 import com.perfectearth.bhagavadgita.R;
 import com.perfectearth.bhagavadgita.Utilis.CustomProgress;
+import com.perfectearth.bhagavadgita.Utilis.OrdinalUtilis;
+import com.perfectearth.bhagavadgita.Utilis.SessionManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,13 +51,17 @@ public class QuizScoreFragment extends Fragment {
     private ArrayList<QuizItemAll> quizItemAllArrayList;
     private RecyclerView quizScoreRecycler;
     private String url , phone;
+    private View cardFirst;
     private TextView firstWord,firstName,firstScore,secondWord,secondName,secondScore
-            ,thirdWord,thirdName,thirdScore;
+            ,thirdWord,thirdName,thirdScore,myRankSerial,myRankDetails;
+    private RelativeLayout animShow,quizScoreView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View viewScoreQuiz = inflater.inflate(R.layout.fragment_quiz_score, container, false);
         url = getString(R.string.quiz_link);
         quizScoreRecycler = viewScoreQuiz.findViewById(R.id.recycler_quiz_score);
+        SessionManager sessionManager = new SessionManager(getContext());
+        phone = sessionManager.getPhone();
 
         firstName = viewScoreQuiz.findViewById(R.id.first_name);
         firstWord = viewScoreQuiz.findViewById(R.id.first_word);
@@ -67,8 +74,11 @@ public class QuizScoreFragment extends Fragment {
         thirdName = viewScoreQuiz.findViewById(R.id.third_name);
         thirdWord = viewScoreQuiz.findViewById(R.id.third_word);
         thirdScore = viewScoreQuiz.findViewById(R.id.third_score);
-
-
+        animShow = viewScoreQuiz.findViewById(R.id.animation_quiz_score);
+        quizScoreView = viewScoreQuiz.findViewById(R.id.quiz_score_view);
+        cardFirst = viewScoreQuiz.findViewById(R.id.card_quiz_1st);
+        myRankSerial = viewScoreQuiz.findViewById(R.id.my_rank_serial);
+        myRankDetails = viewScoreQuiz.findViewById(R.id.my_rank_details);
         quizScoreRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         quizScoreRecycler.setNestedScrollingEnabled(false);
         quizItemAllArrayList = new ArrayList<>();
@@ -94,20 +104,33 @@ public class QuizScoreFragment extends Fragment {
         if (quizItemAllArrayList!=null){
             quizItemAllArrayList.clear();
         }
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONArray jsonArrayResult = new JSONArray(response);
-
-                    topScoreView(jsonArrayResult.getJSONObject(0), firstName, firstScore, firstWord);
-                    topScoreView(jsonArrayResult.getJSONObject(1), secondName, secondScore, secondWord);
-                    topScoreView(jsonArrayResult.getJSONObject(2), thirdName, thirdScore, thirdWord);
-
+                    String monthlyScoreString = jsonArrayResult.getJSONObject(0).getString("monthly_score");
+                    String monthlyScoreString4 = jsonArrayResult.getJSONObject(3).getString("monthly_score");
+                    int matchingIndex;
                     for (int i = 3; i < jsonArrayResult.length(); i++) {
                         JSONObject jsonObject = jsonArrayResult.getJSONObject(i);
-                        String phone = jsonObject.getString("phone");
+                        String phoneC = jsonObject.getString("phone");
+                        if (phone.equals(phoneC)) {
+                            matchingIndex = i;
+                            workRank(jsonArrayResult.getJSONObject(matchingIndex),matchingIndex,monthlyScoreString);
+                            if (cardFirst.getVisibility()==View.GONE){
+                                cardFirst.setVisibility(View.VISIBLE);
+                            }
+                            break;
+                        }else {
+                            if (cardFirst.getVisibility()==View.VISIBLE){
+                                cardFirst.setVisibility(View.GONE);
+                            }
+
+                        }
+                    }
+                    for (int i = 3; i < jsonArrayResult.length(); i++) {
+                        JSONObject jsonObject = jsonArrayResult.getJSONObject(i);
                         String score = jsonObject.getString("monthly_score");
                         String name = jsonObject.getString("name");
                         QuizItemAll quizItemAll = new QuizItemAll();
@@ -116,18 +139,32 @@ public class QuizScoreFragment extends Fragment {
                         quizItemAllArrayList.add(quizItemAll);
                         quizAllAdapter = new QuizAllAdapter(getContext(),quizItemAllArrayList);
                         quizScoreRecycler.setAdapter(quizAllAdapter);
+                        if (quizScoreView.getVisibility()==View.GONE){
+                            quizScoreView.setVisibility(View.VISIBLE);
+                        }
+                        if (animShow.getVisibility()==View.VISIBLE){
+                            animShow.setVisibility(View.GONE);
+                        }
                     }
+                    topScoreView(jsonArrayResult.getJSONObject(0), firstName, firstScore, firstWord);
+                    topScoreView(jsonArrayResult.getJSONObject(1), secondName, secondScore, secondWord);
+                    topScoreView(jsonArrayResult.getJSONObject(2), thirdName, thirdScore, thirdWord);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     CustomProgress.hideProgressBar();
-                    Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+                    if (animShow.getVisibility()==View.GONE){
+                        animShow.setVisibility(View.VISIBLE);
+                    }
+                    if (quizScoreView.getVisibility()==View.VISIBLE){
+                        quizScoreView.setVisibility(View.GONE);
+                    }
+
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("ContentValues", "error" + error.getMessage());
-                Toast.makeText(getContext(), "Check "+error, Toast.LENGTH_SHORT).show();
                 CustomProgress.hideProgressBar();
             }
         }) {
@@ -151,4 +188,19 @@ public class QuizScoreFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
+//throws JSONException
+    private void workRank(JSONObject jsonObject,int index,String firstRank) throws JSONException{
+        if (cardFirst.getVisibility()==View.GONE){
+            cardFirst.setVisibility(View.VISIBLE);
+        }
+        String scoreM = jsonObject.getString("monthly_score");
+        String serial = OrdinalUtilis.getOrdinalSuffix(index+1);
+        double rank_first = Double.parseDouble(firstRank);
+        double my_rank = Double.parseDouble(scoreM);
+        int percent = (int) (((double) my_rank / rank_first) * 100);
+        myRankSerial.setText(serial);
+        myRankDetails.setText("You are doing better then "+percent+"% of other player for this month");
+
+    }
+
 }
