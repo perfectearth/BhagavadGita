@@ -37,12 +37,13 @@ public class QuizAllAdapter extends RecyclerView.Adapter<QuizAllAdapter.ViewHold
     public void onBindViewHolder(@NonNull QuizAllAdapter.ViewHolder holder, int position) {
         QuizItemAll quizItemAll = quizItemAllList.get(position);
         String suffix = OrdinalUtilis.getOrdinalSuffix(position+4);
+        int score = Integer.parseInt(quizItemAll.getScore());
         String name = quizItemAll.getName();
         char firstChar = name.charAt(0);
         String firstLetter = String.valueOf(firstChar);
         holder.serialText.setText(suffix);
         holder.nameText.setText(name);
-        holder.scoreText.setText("Score : "+quizItemAll.getScore());
+        holder.scoreText.setText("Score "+ score*5);
         holder.nameWord.setText(firstLetter);
 
     }

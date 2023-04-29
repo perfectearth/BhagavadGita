@@ -58,14 +58,21 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ViewHolder> 
             String chapterName = chapterNames.get(chapterNumber - 1);
             holder.chapterName.setText(chapterName);
         }
-
-        holder.scoreText.setText(itemScore.getQuesTotal());
-        holder.scoreDetails.setText(itemScore.getScoreCorrect());
-
+        int correctAns = 0;
+        int check = Integer.parseInt(itemScore.getScoreCorrect());
+        correctAns += check;
+        int level = (correctAns / 100) + 1; // Calculate the level based on the current score
+        if (correctAns % 100 == 0) {  // Check if the score is a multiple of 100
+            holder.scoreBar.setProgress(0); // Reset the progress bar to 0
+        }
+        holder.scoreText.setText("Score "+correctAns*5);
+        holder.scoreBar.setProgress(correctAns % 100);
+        holder.scoreDetails.setText("Current Level " + level);
+        holder.progressText.setText(correctAns % 100 + "%");
     }
 
 
-    @Override
+        @Override
     public int getItemCount() {
         return itemScoresList.size();
     }

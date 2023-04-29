@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -21,14 +20,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.snackbar.Snackbar;
-import com.perfectearth.bhagavadgita.Adapter.ChapterAdapter;
 import com.perfectearth.bhagavadgita.Adapter.QuizAllAdapter;
-import com.perfectearth.bhagavadgita.Adapter.ScoreAdapter;
-import com.perfectearth.bhagavadgita.AdapterItem.ChapterItem;
-import com.perfectearth.bhagavadgita.AdapterItem.ItemScore;
 import com.perfectearth.bhagavadgita.AdapterItem.QuizItemAll;
-import com.perfectearth.bhagavadgita.Quizprocess;
 import com.perfectearth.bhagavadgita.R;
 import com.perfectearth.bhagavadgita.Utilis.CustomProgress;
 import com.perfectearth.bhagavadgita.Utilis.OrdinalUtilis;
@@ -52,6 +45,7 @@ public class QuizScoreFragment extends Fragment {
     private RecyclerView quizScoreRecycler;
     private String url , phone;
     private View cardFirst;
+
     private TextView firstWord,firstName,firstScore,secondWord,secondName,secondScore
             ,thirdWord,thirdName,thirdScore,myRankSerial,myRankDetails;
     private RelativeLayout animShow,quizScoreView;
@@ -79,6 +73,7 @@ public class QuizScoreFragment extends Fragment {
         cardFirst = viewScoreQuiz.findViewById(R.id.card_quiz_1st);
         myRankSerial = viewScoreQuiz.findViewById(R.id.my_rank_serial);
         myRankDetails = viewScoreQuiz.findViewById(R.id.my_rank_details);
+
         quizScoreRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         quizScoreRecycler.setNestedScrollingEnabled(false);
         quizItemAllArrayList = new ArrayList<>();
@@ -91,16 +86,17 @@ public class QuizScoreFragment extends Fragment {
         checkScoreQuiz();
     }
     private void topScoreView(JSONObject scoreObject, TextView nameView, TextView scoreView, TextView wordView) throws JSONException {
-        String score = scoreObject.getString("monthly_score");
+        int score = Integer.parseInt(scoreObject.getString("monthly_score"));
         String name = scoreObject.getString("name");
         nameView.setText(name);
-        scoreView.setText("Score\n" + score);
+        scoreView.setText("Score\n" + score*5);
         char firstChar = name.charAt(0);
         String firstLetter = String.valueOf(firstChar);
         wordView.setText(firstLetter);
     }
     private void checkScoreQuiz() {
 
+        CustomProgress.showProgressBar(getContext(),false,"Please\nwait..");
         if (quizItemAllArrayList!=null){
             quizItemAllArrayList.clear();
         }
@@ -110,7 +106,6 @@ public class QuizScoreFragment extends Fragment {
                 try {
                     JSONArray jsonArrayResult = new JSONArray(response);
                     String monthlyScoreString = jsonArrayResult.getJSONObject(0).getString("monthly_score");
-                    String monthlyScoreString4 = jsonArrayResult.getJSONObject(3).getString("monthly_score");
                     int matchingIndex;
                     for (int i = 3; i < jsonArrayResult.length(); i++) {
                         JSONObject jsonObject = jsonArrayResult.getJSONObject(i);
@@ -149,6 +144,7 @@ public class QuizScoreFragment extends Fragment {
                     topScoreView(jsonArrayResult.getJSONObject(0), firstName, firstScore, firstWord);
                     topScoreView(jsonArrayResult.getJSONObject(1), secondName, secondScore, secondWord);
                     topScoreView(jsonArrayResult.getJSONObject(2), thirdName, thirdScore, thirdWord);
+                    CustomProgress.hideProgressBar();
                 } catch (JSONException e) {
                     e.printStackTrace();
                     CustomProgress.hideProgressBar();

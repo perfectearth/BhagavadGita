@@ -70,11 +70,13 @@
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:padding="@dimen/dp_5"
                 android:id="@+id/progress_score"
                 android:layout_centerVertical="true"
                 app:indicatorColor="?attr/colorPrimary"
-                app:indicatorSize="@dimen/dp_60"
+                app:indicatorSize="@dimen/dp_50"
                 app:trackColor="@color/white1"
+                android:max="100"
                 app:trackThickness="@dimen/dp_5" />
 
             <TextView

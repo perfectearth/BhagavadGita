@@ -17,6 +17,7 @@
             app:expandedTitleTextColor="@color/white"
             app:collapsedTitleTextColor="@color/white"
             app:title="@string/quiz_title"
+            app:titleTextEllipsize="middle"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
             <ImageView
                 android:layout_gravity="center"

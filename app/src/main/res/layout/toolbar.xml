@@ -18,7 +18,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textSize="@dimen/sp_16"
+                android:textSize="@dimen/sp_18"
                 android:text="@string/gita_name"
                 android:textColor="@color/white"
                 android:id="@+id/txt_title_main"/>

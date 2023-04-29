@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:textSize="@dimen/sp_16"
+                android:textSize="@dimen/sp_18"
                 android:text="@string/final_exam"
                 android:id="@+id/txt_title_exam"/>
         </com.google.android.material.appbar.MaterialToolbar>

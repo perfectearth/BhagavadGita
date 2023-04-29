@@ -180,7 +180,7 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                     String formattedDate = dateFormat.format(currentDate);
 
-                    submitData(phone,formattedDate,correctAns,playChapter,totalQuestion,correctAns);
+                    submitData(phone,formattedDate,correctAns,playChapter,totalQuestion);
                     CustomProgress.showProgressBar(Quizprocess.this,false,"Wait...");
                     index=0;
                     thisQuestion=0;
@@ -239,13 +239,11 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    private void submitData(String phonea,String date,int cor , int playChapter,int QuesTotal, int correct) {
+    private void submitData(String phonea,String date,int correct , int playChapter,int QuesTotal) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 CustomProgress.hideProgressBar();
-                Toast.makeText(Quizprocess.this,response,Toast.LENGTH_SHORT).show();
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -259,7 +257,7 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
                 Map<String, String> params = new HashMap<>();
                 params.put("action", "save_quiz");
                 params.put("phone", phonea);
-                params.put("total_score", String.valueOf(cor));
+                params.put("total_score", String.valueOf(correct));
                 params.put("play_date", String.valueOf(date));
                 params.put("chapter", String.valueOf(playChapter));
                 params.put("correct", String.valueOf(correct));

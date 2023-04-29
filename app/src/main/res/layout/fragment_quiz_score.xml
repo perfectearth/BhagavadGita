@@ -288,4 +288,5 @@
             android:text="@string/quiz_score_details"/>
     </RelativeLayout>
 
+
 </RelativeLayout>
