@@ -57,7 +57,7 @@ public class BookmarksAdapter extends RecyclerView.Adapter<BookmarksAdapter.View
         if (chapterNumber >= 1 && chapterNumber <= chapterNames.size()) {
             String chapterName = chapterNames.get(chapterNumber - 1);
             String banglaVerseNumber = BanglaNumberUtils.toBanglaNumber(verseNumber);
-            String title = chapterName +"\n"+ "শ্লোক : "+ banglaVerseNumber;
+            String title = chapterName +"\n"+ "শ্লোক "+ banglaVerseNumber;
             holder.titleTextView.setText(title);
         } else {
             holder.titleTextView.setText("No matching chapter name found");

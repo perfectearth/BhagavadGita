@@ -53,7 +53,6 @@
         <ImageView
             android:layout_marginTop="@dimen/dp_100"
             android:layout_marginHorizontal="@dimen/dp_40"
-
             android:layout_width="match_parent"
             android:layout_height="290dp"
             android:src="@drawable/rank_design"
@@ -70,12 +69,12 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:padding="@dimen/dp_5"
-                android:layout_height="@dimen/dp_120">
+                android:layout_height="@dimen/dp_130">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/two_position_card"
-                    android:layout_width="@dimen/dp_50"
-                    android:layout_height="@dimen/dp_50"
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_40"
                     android:layout_centerHorizontal="true"
                     android:layout_marginStart="@dimen/dp_2"
                     android:layout_marginTop="@dimen/dp_2"
@@ -91,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="B"
-                        android:textSize="@dimen/sp_20"
+                        android:textSize="@dimen/sp_25"
                         android:textStyle="bold" />
                 </com.google.android.material.card.MaterialCardView>
 
@@ -131,12 +130,12 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:padding="@dimen/dp_5"
-                android:layout_height="@dimen/dp_120">
+                android:layout_height="@dimen/dp_130">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/first_position_card"
-                    android:layout_width="@dimen/dp_50"
-                    android:layout_height="@dimen/dp_50"
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_40"
                     android:layout_centerHorizontal="true"
                     android:layout_marginStart="@dimen/dp_2"
                     android:layout_marginTop="@dimen/dp_2"
@@ -152,7 +151,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="B"
-                        android:textSize="@dimen/sp_20"
+                        android:textSize="@dimen/sp_25"
                         android:textStyle="bold" />
                 </com.google.android.material.card.MaterialCardView>
 
@@ -192,12 +191,12 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:padding="@dimen/dp_5"
-                android:layout_height="@dimen/dp_120">
+                android:layout_height="@dimen/dp_130">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/third_position_card"
-                    android:layout_width="@dimen/dp_50"
-                    android:layout_height="@dimen/dp_50"
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_40"
                     android:layout_centerHorizontal="true"
                     android:layout_marginStart="@dimen/dp_2"
                     android:layout_marginTop="@dimen/dp_2"
@@ -213,7 +212,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="B"
-                        android:textSize="@dimen/sp_20"
+                        android:textSize="@dimen/sp_25"
                         android:textStyle="bold" />
                 </com.google.android.material.card.MaterialCardView>
                 <TextView
@@ -254,7 +253,7 @@
             android:layout_marginTop="230dp"
             android:layout_marginBottom="@dimen/dp_10"
             android:layout_marginHorizontal="@dimen/dp_20"
-            app:cardElevation="@dimen/dp_10"
+            app:cardElevation="@dimen/dp_5"
             app:cardCornerRadius="@dimen/dp_30"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

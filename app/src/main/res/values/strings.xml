@@ -90,7 +90,7 @@
     <string name="quiz_link">https://banglabhagavad.com/my_file/quiz_data.php</string>
     <string name="exam_score">Score Board</string>
     <string name="exam_start">Exam Sheet</string>
-    <string name="details_play">You are played</string>
+    <string name="details_play">Quiz all played</string>
     <string name="forget_password">Forgot Password?</string>
     <string name="forget_massage">You do not have an account\nPlease create a new account</string>
     <string name="massage_forget">Please check your Number</string>
@@ -99,8 +99,8 @@
     <string name="leaderboard">Leader Board</string>
     <string name="profile">Profile</string>
     <string name="category_quiz">Categories</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="number0">0</string>
     <string name="quiz_score_details">Prossaing the\nquiz score.....</string>
+    <string name="congress">Congrats! You\'re progress now</string>
+    <string name="details_level">Quiz level</string>
 </resources>

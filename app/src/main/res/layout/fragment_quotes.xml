@@ -50,12 +50,14 @@
         android:padding="@dimen/dp_10"
         android:background="@drawable/rounded_corner"
         android:text="@string/first_name"/>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@id/top_name"
-        android:layout_margin="@dimen/dp_10"
-        android:layout_width="match_parent"
+        android:padding="@dimen/dp_10"
         android:id="@+id/recycler_quotes"
-        android:layout_height="wrap_content">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/top_name"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"/>
 
 </RelativeLayout>

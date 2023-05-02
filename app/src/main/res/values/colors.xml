@@ -21,5 +21,6 @@
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="textInputLayout">#96ffffff</color>
     <color name="red">#FF1100</color>
+    <color name="purple">#9215DF</color>
 
 </resources>
