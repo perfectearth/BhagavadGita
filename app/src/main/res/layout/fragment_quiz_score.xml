@@ -45,7 +45,7 @@
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
     <RelativeLayout
-        android:visibility="one"
+        android:visibility="gone"
         android:id="@+id/quiz_score_view"
         android:layout_below="@id/card_quiz_1st"
         android:layout_width="match_parent"
