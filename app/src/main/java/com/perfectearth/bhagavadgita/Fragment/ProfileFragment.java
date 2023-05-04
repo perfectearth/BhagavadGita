@@ -172,9 +172,12 @@ public class  ProfileFragment extends Fragment {
             profileDateText.setText("Last play N/A");
         }
 
-        int sum = 500 - correctAns * 5;
+        int baseSum = 500;
+        int score = correctAns * 5;
+        int sum = (int) Math.ceil(score / (double) baseSum) * baseSum - score;
         String text = "Need " + sum + " Score for next level";
         profileDetails.setText(text);
+
         textLevelProgress.setText(correctAns % 100 + "%");
 
         float progressWidth = levelProgress.getWidth() * (correctAns % 100) / 108.0f;

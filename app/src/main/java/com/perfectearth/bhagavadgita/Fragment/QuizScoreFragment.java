@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -141,12 +142,12 @@ public class QuizScoreFragment extends Fragment {
                         quizItemAllArrayList.add(quizItemAll);
                         quizAllAdapter = new QuizAllAdapter(getContext(),quizItemAllArrayList);
                         quizScoreRecycler.setAdapter(quizAllAdapter);
-                        if (quizScoreView.getVisibility()==View.GONE){
-                            quizScoreView.setVisibility(View.VISIBLE);
-                        }
-                        if (animShow.getVisibility()==View.VISIBLE){
-                            animShow.setVisibility(View.GONE);
-                        }
+                    }
+                    if (quizScoreView.getVisibility()==View.GONE){
+                        quizScoreView.setVisibility(View.VISIBLE);
+                    }
+                    if (animShow.getVisibility()==View.VISIBLE){
+                        animShow.setVisibility(View.GONE);
                     }
                     topScoreView(jsonArrayResult.getJSONObject(0), firstName, firstScore, firstWord);
                     topScoreView(jsonArrayResult.getJSONObject(1), secondName, secondScore, secondWord);
