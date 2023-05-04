@@ -1,11 +1,17 @@
 package com.perfectearth.bhagavadgita.Fragment;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,7 +92,14 @@ public class QuizScoreFragment extends Fragment {
         int score = Integer.parseInt(scoreObject.getString("monthly_score"));
         String name = scoreObject.getString("name");
         nameView.setText(name);
-        scoreView.setText("Score\n" + score*5);
+        String value = String.valueOf(score*5);
+        String textScore = "Score\n" +value;
+        SpannableString spannableString = new SpannableString(textScore);
+        spannableString.setSpan(new StyleSpan(Typeface.BOLD), textScore.indexOf(value), textScore.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        int color = ContextCompat.getColor(getContext(), R.color.teal_700);
+        spannableString.setSpan(new ForegroundColorSpan(color), textScore.indexOf(value), textScore.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        scoreView.setText(spannableString);
+
         char firstChar = name.charAt(0);
         String firstLetter = String.valueOf(firstChar);
         wordView.setText(firstLetter);

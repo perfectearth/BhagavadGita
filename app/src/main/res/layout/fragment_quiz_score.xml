@@ -45,7 +45,7 @@
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
     <RelativeLayout
-        android:visibility="gone"
+        android:visibility="one"
         android:id="@+id/quiz_score_view"
         android:layout_below="@id/card_quiz_1st"
         android:layout_width="match_parent"
@@ -102,6 +102,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:maxLines="1"
+                    android:textStyle="bold"
+                    android:textColor="@color/purple_200"
                     android:layout_marginStart="@dimen/dp_2"
                     android:layout_marginTop="@dimen/dp_2"
                     android:layout_marginEnd="@dimen/dp_2"
@@ -162,6 +164,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:maxLines="1"
+                    android:textStyle="bold"
+                    android:textColor="@color/purple_200"
                     android:layout_marginStart="@dimen/dp_2"
                     android:layout_marginTop="@dimen/dp_2"
                     android:layout_marginEnd="@dimen/dp_2"
@@ -221,6 +225,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:maxLines="1"
+                    android:textStyle="bold"
+                    android:textColor="@color/purple_200"
                     android:layout_marginStart="@dimen/dp_2"
                     android:layout_marginTop="@dimen/dp_2"
                     android:layout_marginEnd="@dimen/dp_2"
