@@ -35,17 +35,12 @@ public class ScoreFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewScore = inflater.inflate(R.layout.fragment_score, container, false);
-
         scoreTabLayout = viewScore.findViewById(R.id.tab_layout_leader);
         scoreViewPager = viewScore.findViewById(R.id.view_pager_leader);
-
-        // Set up the ViewPager2 adapter
         FragmentAdapter adapter = new FragmentAdapter(getChildFragmentManager(), getLifecycle());
         scoreViewPager.setAdapter(adapter);
         scoreViewPager.setPageTransformer(new ZoomOutPageTransformer());
         scoreViewPager.setUserInputEnabled(false);
-
-        // Link the TabLayout to the ViewPager2
         new TabLayoutMediator(scoreTabLayout, scoreViewPager,
                 (tab, position) -> {
                     if (position == 0) {
@@ -65,7 +60,6 @@ public class ScoreFragment extends Fragment {
         public FragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
             super(fragmentManager, lifecycle);
         }
-
         @NonNull
         @Override
         public Fragment createFragment(int position) {
@@ -85,5 +79,8 @@ public class ScoreFragment extends Fragment {
         }
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }

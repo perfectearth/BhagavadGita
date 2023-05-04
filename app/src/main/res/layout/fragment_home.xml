@@ -22,7 +22,7 @@
                 app:cardCornerRadius="25dp">
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="155dp"
+                    android:layout_height="@dimen/dp_180"
                     android:alpha=".3"
                     android:scaleType="centerCrop"
                     android:src="@drawable/home_photo"

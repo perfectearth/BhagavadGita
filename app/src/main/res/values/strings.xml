@@ -101,6 +101,5 @@
     <string name="category_quiz">Categories</string>
     <string name="number0">0</string>
     <string name="quiz_score_details">Prossaing the\nquiz score.....</string>
-    <string name="congress">Congrats! You\'re progress now</string>
     <string name="details_level">Quiz level</string>
 </resources>

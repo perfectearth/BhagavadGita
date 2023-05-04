@@ -49,6 +49,7 @@ public class QuizScoreFragment extends Fragment {
     private TextView firstWord,firstName,firstScore,secondWord,secondName,secondScore
             ,thirdWord,thirdName,thirdScore,myRankSerial,myRankDetails;
     private RelativeLayout animShow,quizScoreView;
+    private boolean checkNotify = true;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View viewScoreQuiz = inflater.inflate(R.layout.fragment_quiz_score, container, false);
@@ -77,14 +78,10 @@ public class QuizScoreFragment extends Fragment {
         quizScoreRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         quizScoreRecycler.setNestedScrollingEnabled(false);
         quizItemAllArrayList = new ArrayList<>();
+        checkScoreQuiz();
         return viewScoreQuiz;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        checkScoreQuiz();
-    }
     private void topScoreView(JSONObject scoreObject, TextView nameView, TextView scoreView, TextView wordView) throws JSONException {
         int score = Integer.parseInt(scoreObject.getString("monthly_score"));
         String name = scoreObject.getString("name");
@@ -113,15 +110,11 @@ public class QuizScoreFragment extends Fragment {
                         if (phone.equals(phoneC)) {
                             matchingIndex = i;
                             workRank(jsonArrayResult.getJSONObject(matchingIndex),matchingIndex,monthlyScoreString);
-                            if (cardFirst.getVisibility()==View.GONE){
-                                cardFirst.setVisibility(View.VISIBLE);
-                            }
                             break;
                         }else {
                             if (cardFirst.getVisibility()==View.VISIBLE){
                                 cardFirst.setVisibility(View.GONE);
                             }
-
                         }
                     }
                     for (int i = 3; i < jsonArrayResult.length(); i++) {
@@ -129,6 +122,7 @@ public class QuizScoreFragment extends Fragment {
                         String score = jsonObject.getString("monthly_score");
                         String name = jsonObject.getString("name");
                         QuizItemAll quizItemAll = new QuizItemAll();
+                        quizItemAll.setSerial("4");
                         quizItemAll.setName(name);
                         quizItemAll.setScore(score);
                         quizItemAllArrayList.add(quizItemAll);
@@ -199,4 +193,14 @@ public class QuizScoreFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(quizAllAdapter != null) {
+            if (checkNotify){
+                quizAllAdapter.notifyDataSetChanged();
+                checkNotify=false;
+            }
+        }
+    }
 }

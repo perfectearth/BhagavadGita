@@ -9,41 +9,69 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_name"
-            android:layout_margin="@dimen/dp_10"
-            android:layout_width="@dimen/dp_40"
-            android:layout_height="@dimen/dp_40"
-            app:cardCornerRadius="@dimen/dp_20"
-            app:cardElevation="@dimen/dp_2">
-            <TextView
+        <RelativeLayout
+            android:gravity="center"
+            android:id="@+id/rela_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_name"
+                android:layout_width="@dimen/dp_70"
+                android:layout_height="@dimen/dp_70"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_20"
+                app:cardCornerRadius="@dimen/dp_20"
+                app:cardElevation="@dimen/dp_5">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:id="@+id/profile_letter"
+                    android:text="@string/number"
+                    android:textSize="@dimen/sp_35" />
+            </com.google.android.material.card.MaterialCardView>
+            <LinearLayout
+                android:layout_alignTop="@id/card_name"
+                android:layout_alignBottom="@id/card_name"
+                android:layout_toEndOf="@+id/card_name"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/number"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textSize="@dimen/sp_25"/>
-        </com.google.android.material.card.MaterialCardView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:layout_margin="@dimen/dp_10"
-            android:textSize="@dimen/sp_20"
-            android:layout_toEndOf="@+id/card_name"/>
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textSize="@dimen/sp_25" />
+                <TextView
+                    android:id="@+id/profile_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
         <com.google.android.material.card.MaterialCardView
-            android:layout_below="@id/card_name"
+            android:layout_below="@id/rela_name"
             android:layout_width="match_parent"
             app:cardElevation="@dimen/dp_5"
             android:layout_marginVertical="@dimen/dp_5"
             android:layout_marginHorizontal="@dimen/dp_20"
             app:cardCornerRadius="@dimen/dp_20"
-            android:layout_height="100dp">
+            android:layout_height="120dp">
             <LinearLayout
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <View
                     android:layout_width="1dp"
@@ -170,7 +198,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_marginHorizontal="@dimen/dp_20"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_90"
+        android:layout_height="@dimen/dp_100"
         app:cardCornerRadius="@dimen/dp_20"
         app:cardElevation="@dimen/dp_5">
         <RelativeLayout
@@ -179,8 +207,8 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_profile"
-                android:layout_width="@dimen/dp_60"
-                android:layout_height="@dimen/dp_60"
+                android:layout_width="@dimen/dp_70"
+                android:layout_height="@dimen/dp_70"
                 android:layout_marginStart="@dimen/dp_15"
                 app:cardElevation="@dimen/dp_5"
                 app:cardCornerRadius="@dimen/dp_15"
@@ -188,8 +216,8 @@
                 <ImageView
                     android:alpha=".3"
                     android:id="@+id/profile_image"
-                    android:layout_width="@dimen/dp_80"
-                    android:layout_height="@dimen/dp_80"
+                    android:layout_width="@dimen/dp_70"
+                    android:layout_height="@dimen/dp_70"
                     android:src="@drawable/up_frame"
                     android:contentDescription="@string/app_name"/>
                 <TextView
@@ -222,9 +250,9 @@
                 android:layout_marginHorizontal="@dimen/dp_10"
                 android:layout_marginVertical="@dimen/dp_5"
                 android:layout_toEndOf="@+id/card_profile"
-                android:maxLines="1"
+                android:maxLines="2"
                 android:ellipsize="marquee"
-                android:text="@string/congress" />
+                android:text="@string/app_name" />
             <RelativeLayout
                 android:layout_marginHorizontal="@dimen/dp_10"
                 android:layout_toEndOf="@+id/card_profile"

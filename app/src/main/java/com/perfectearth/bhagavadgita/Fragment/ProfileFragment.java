@@ -47,7 +47,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ProfileFragment extends Fragment {
+public class  ProfileFragment extends Fragment {
 
     public ProfileFragment() {
     }
@@ -55,9 +55,10 @@ public class ProfileFragment extends Fragment {
     private ScoreAdapter scoreAdapter;
     private ArrayList<ItemScore> itemScoreList;
     private RecyclerView scoreRecycler;
-    private String url , phone;
-    private TextView profileDateText,textLevelProfile,textLevelProgress
-            ,totalMyText,monthMyText,correctMyText,wrongMyText;
+    private String url , phone,name;
+    private TextView profileDateText,profileDetails,textLevelProfile,textLevelProgress
+            ,totalMyText,monthMyText,correctMyText,wrongMyText,textNameProfile
+            ,textNumberProfile,textLetterProfile;
     private ProgressBar levelProgress;
     private int totalQuestions = 0, totalCorrect = 0;
 
@@ -68,8 +69,15 @@ public class ProfileFragment extends Fragment {
         sessionManager = new SessionManager(getContext());
         url = getString(R.string.quiz_link);
         phone = sessionManager.getPhone();
+        name = sessionManager.getName();
 
         levelProgress = profileView.findViewById(R.id.progress_level);
+        textNameProfile = profileView.findViewById(R.id.profile_name);
+        textNumberProfile = profileView.findViewById(R.id.profile_number);
+        textLetterProfile = profileView.findViewById(R.id.profile_letter);
+        profileDetails = profileView.findViewById(R.id.profile_details);
+
+
         textLevelProfile = profileView.findViewById(R.id.profile_level);
         profileDateText = profileView.findViewById(R.id.profile_date);
         totalMyText = profileView.findViewById(R.id.my_total_score);
@@ -82,6 +90,12 @@ public class ProfileFragment extends Fragment {
         scoreRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         scoreRecycler.setNestedScrollingEnabled(false);
         itemScoreList = new ArrayList<>();
+
+        textNameProfile.setText(name);
+        textNumberProfile.setText("Your number 0"+phone);
+        char firstChar = name.charAt(0);
+        String firstLetter = String.valueOf(firstChar);
+        textLetterProfile.setText(firstLetter);
         return profileView;
     }
 
@@ -145,15 +159,10 @@ public class ProfileFragment extends Fragment {
     }
 
     private void profileData(String totalScore, String monthlyScore, String playDate) {
-        int correctAns = 0;
-        int check = Integer.parseInt(totalScore);
-        correctAns += check;
+        int correctAns = Integer.parseInt(totalScore);
         int level = (correctAns / 100) + 1;
-        if (correctAns % 100 == 0) {
-            levelProgress.setProgress(0);
-        }else {
-            levelProgress.setProgress(correctAns % 100);
-        }
+        levelProgress.setProgress(correctAns % 100 == 0 ? 0 : correctAns % 100);
+
         try {
             Date date = new SimpleDateFormat("yyyy-MM-dd").parse(playDate);
             String formattedDate = new SimpleDateFormat("dd MMM").format(date);
@@ -163,18 +172,22 @@ public class ProfileFragment extends Fragment {
             profileDateText.setText("Last play N/A");
         }
 
+        int sum = 500 - correctAns * 5;
+        String text = "Need " + sum + " Score for next level";
+        profileDetails.setText(text);
         textLevelProgress.setText(correctAns % 100 + "%");
-        float marginHorizontal = 10.0f;
-        float progressWidth = levelProgress.getWidth() * (correctAns % 100) / 110.0f;
-        textLevelProgress.setX(levelProgress.getX() + progressWidth - marginHorizontal);
-        textLevelProgress.setY(levelProgress.getY() + levelProgress.getHeight() - textLevelProgress.getHeight()-2);
-        int month = Integer.parseInt(monthlyScore);
-        monthMyText.setText(month*5+"\nMonthly score");
-        totalMyText.setText(correctAns*5+"\nTotal score");
-        String levelText = level + "\n" + "Level";
+
+        float progressWidth = levelProgress.getWidth() * (correctAns % 100) / 108.0f;
+        textLevelProgress.setX(levelProgress.getX() + progressWidth - 10.0f);
+        textLevelProgress.setY(levelProgress.getY() + levelProgress.getHeight() - textLevelProgress.getHeight() - 2);
+
+        monthMyText.setText(Integer.parseInt(monthlyScore) * 5 + "\nMonthly score");
+        totalMyText.setText(correctAns * 5 + "\nTotal score");
+
+        String levelText = level + "\nLevel";
         SpannableString spannableString = new SpannableString(levelText);
         spannableString.setSpan(new RelativeSizeSpan(0.4f), levelText.indexOf("Level"), levelText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        textLevelProfile.setLineSpacing(-25f, 1f);
+        textLevelProfile.setLineSpacing(-20f, 1f);
         textLevelProfile.setText(spannableString);
 
 
