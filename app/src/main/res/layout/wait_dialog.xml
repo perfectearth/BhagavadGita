@@ -5,8 +5,8 @@
     android:gravity="center"
     android:layout_height="match_parent">
     <androidx.cardview.widget.CardView
-        app:cardCornerRadius="@dimen/dp_20"
-        android:elevation="@dimen/dp_10"
+        app:cardCornerRadius="@dimen/dp_10"
+        app:cardElevation="@dimen/dp_5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -24,7 +24,6 @@
                 app:lottie_loop="true"/>
             <TextView
                 android:textSize="@dimen/sp_15"
-                android:textStyle="bold"
                 android:layout_gravity="center"
                 android:textAlignment="center"
                 android:id="@+id/loding_text"

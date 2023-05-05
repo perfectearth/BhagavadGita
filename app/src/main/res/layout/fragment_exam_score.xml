@@ -3,12 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.ExamScoreFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:visibility="gone"
         android:id="@+id/recycler_exam_score"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/dp_20"/>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/animation_exam_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view_score"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/load_krishna" />
+        <TextView
+            android:gravity="center"
+            android:layout_below="@id/animation_view_score"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/score_details"/>
+    </RelativeLayout>
 
 </RelativeLayout>

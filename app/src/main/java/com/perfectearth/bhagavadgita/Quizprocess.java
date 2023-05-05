@@ -187,8 +187,6 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
                 }
             }
         });
-
-        CustomProgress.showProgressBar(this,false,"Wait..");
         getQuizFile();
     }
 
@@ -270,6 +268,7 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
     }
 
     private void getQuizFile() {
+        CustomProgress.showProgressBar(this,false,"Wait..");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

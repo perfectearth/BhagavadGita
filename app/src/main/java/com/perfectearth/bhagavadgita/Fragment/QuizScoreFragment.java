@@ -107,7 +107,7 @@ public class QuizScoreFragment extends Fragment {
     }
     private void checkScoreQuiz() {
 
-        CustomProgress.showProgressBar(getContext(),false,"Please\nwait..");
+        CustomProgress.showProgressBar(getContext(),false,"wait..");
         if (quizItemAllArrayList!=null){
             quizItemAllArrayList.clear();
         }

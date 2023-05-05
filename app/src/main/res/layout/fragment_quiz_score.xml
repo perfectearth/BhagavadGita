@@ -271,14 +271,12 @@
         android:visibility="gone"
         android:id="@+id/animation_quiz_score"
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/animation_view_score"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_50"
+            android:layout_centerInParent="true"
             app:lottie_rawRes="@raw/load_krishna"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"/>
@@ -287,7 +285,7 @@
             android:layout_below="@id/animation_view_score"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/quiz_score_details"/>
+            android:text="@string/score_details"/>
     </RelativeLayout>
 
 

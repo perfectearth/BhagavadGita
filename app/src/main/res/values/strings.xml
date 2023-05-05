@@ -100,6 +100,15 @@
     <string name="profile">Profile</string>
     <string name="category_quiz">Categories</string>
     <string name="number0">0</string>
-    <string name="quiz_score_details">Prossaing the\nquiz score.....</string>
+    <string name="score_details">New score list\nprocess..</string>
     <string name="details_level">Quiz level</string>
+    <string name="monthly_win_quiz">This month Quiz winner</string>
+    <string name="monthly_win_exam">This month Exam winner</string>
+    <string name="first_number">1st</string>
+    <string name="total_score">0\nTotal score</string>
+    <string name="monthly_score">0\nMonthly score</string>
+    <string name="correct_score">0\nCorrect score</string>
+    <string name="wrong_score">0\nWrong score</string>
+    <string name="last_play">Last play</string>
+    <string name="next_level">Need 500 Score for next level</string>
 </resources>
