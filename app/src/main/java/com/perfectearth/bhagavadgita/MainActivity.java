@@ -2,6 +2,8 @@ package com.perfectearth.bhagavadgita;
 
 
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -13,12 +15,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 import com.android.volley.Request;
+
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -35,9 +42,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
@@ -57,6 +70,11 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -130,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.OnNe
         View bottomSheetView = getLayoutInflater().inflate(R.layout.share_layout, null);
         bottomSheetShare.setContentView(bottomSheetView);
         Button shearApp  = bottomSheetView.findViewById(R.id.share_id);
-
         shearApp.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -156,14 +173,13 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.OnNe
                         dialogSupport();
                         // Handle click on menu item 2
                         break;
+                    case R.id.privacy:
+                        dialog();
+                        break;
                     case R.id.share:
                         bottomSheetShare.show();
-                        // Handle click on menu item 2
                         break;
-                    // Add more cases for other menu items as needed
                 }
-
-                // Close the drawer menu after handling the click event
                 drawerLayout.closeDrawers();
 
                 return true;
@@ -207,6 +223,34 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.OnNe
             }
         });
     }
+
+    private void dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Privacy Policy");
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.html_textview, null);
+        TextView htmlTextView = dialogView.findViewById(R.id.html_textview);
+        AssetManager assetManager = getAssets();
+        try {
+            InputStream inputStream = assetManager.open("privacy_policy.html");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            htmlTextView.setText(Html.fromHtml(stringBuilder.toString()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        builder.setView(dialogView);
+        builder.setPositiveButton("OK", null);
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 
 
     private void loadFragment(Fragment fragment) {
@@ -350,12 +394,10 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.OnNe
             CustomProgress.hideProgressBar();
             Intent intent = new Intent(this, UserRegister.class);
             startActivity(intent);
-
         } else {
             Snackbar.make(rootView, "Network Not Available", Snackbar.LENGTH_LONG).setAction("Action", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // Action to be performed on click of action button
                 }
             }).show();
         }

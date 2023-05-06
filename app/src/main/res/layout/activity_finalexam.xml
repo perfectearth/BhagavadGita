@@ -28,31 +28,36 @@
                 android:id="@+id/txt_title_exam"/>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
-
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@id/app_bar_exam"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+           <include
+               android:visibility="gone"
+               android:id="@+id/start_exam"
+               android:layout_margin="@dimen/dp_20"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               layout="@layout/exam_start_layout"/>
+           <include
+               android:visibility="gone"
+               android:layout_margin="@dimen/dp_20"
+               android:id="@+id/show_result"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               layout="@layout/exam_result"/>
+       </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
     <include
+        android:layout_below="@id/app_bar_exam"
         android:id="@+id/show_exam"
         android:visibility="gone"
-        android:layout_below="@id/app_bar_exam"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/exam_layout"/>
-    <include
-        android:visibility="gone"
-        android:layout_below="@id/app_bar_exam"
-        android:id="@+id/start_exam"
-        android:layout_margin="@dimen/dp_20"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/exam_start_layout"/>
-    <include
-        android:visibility="gone"
-        android:layout_margin="@dimen/dp_20"
-        android:id="@+id/show_result"
-        android:layout_below="@id/app_bar_exam"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/exam_result"/>
-
    <LinearLayout
        android:id="@+id/animation_view_exam"
        android:layout_centerInParent="true"

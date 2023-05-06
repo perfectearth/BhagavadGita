@@ -18,10 +18,12 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +35,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -80,8 +85,8 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
     private ProgressBar countProgress,timeProgress;
     private Toolbar processToolbar;
     private Button[] optionButtons = new Button[4];
-    private TextView txtQuestionNum,countText,question_Text,categoryName;
-    private LottieAnimationView animationView;
+    private TextView txtQuestionNum,countText,question_Text,categoryName,textNoQuiz;
+    private RelativeLayout animationView;
     private InterstitialAd mInterstitialAd;
     private String url , phone;
 
@@ -90,7 +95,6 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quizprocess);
-
         processToolbar = findViewById(R.id.ptoolbar);
         setSupportActionBar(processToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -113,9 +117,10 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
             }
         });
 
-        //AdView mAdView = findViewById(R.id.adView);
-        //AdRequest adRequest = new AdRequest.Builder().build();
-       // mAdView.loadAd(adRequest);
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        interAds();
         ansA = findViewById(R.id.ans_btna);
         ansB = findViewById(R.id.ans_btnb);
         ansC = findViewById(R.id.ans_btnc);
@@ -130,6 +135,7 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
         timeProgress = findViewById(R.id.progress_time);
         countText = findViewById(R.id.time_count);
         question_Text = findViewById(R.id.question_show_text);
+        textNoQuiz = findViewById(R.id.no_quiz_text);
         categoryName = findViewById(R.id.txt_title_quiz);
         txtQuestionNum= findViewById(R.id.question_text_id);
 
@@ -152,7 +158,7 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
         optionButtons[2] = ansC;
         optionButtons[3] = ansD;
 
-        // Set the onClickListener for all option buttons.
+
         for (int i = 0; i < optionButtons.length; i++) {
             optionButtons[i].setOnClickListener(this);
         }
@@ -179,7 +185,6 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
                     Date currentDate = calendar.getTime();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                     String formattedDate = dateFormat.format(currentDate);
-
                     submitData(phone,formattedDate,correctAns,playChapter,totalQuestion);
                     CustomProgress.showProgressBar(Quizprocess.this,false,"Wait...");
                     index=0;
@@ -190,38 +195,39 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
         getQuizFile();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
-
     private void interAds() {
         AdRequest adRequest = new AdRequest.Builder().build();
-
         InterstitialAd.load(this,"ca-app-pub-8889566517679501/9227619100", adRequest,
                 new InterstitialAdLoadCallback() {
                     @Override
                     public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                        // The mInterstitialAd reference will be null until
-                        // an ad is loaded.
                         mInterstitialAd = interstitialAd;
-                        if (mInterstitialAd != null) {
-                         //   mInterstitialAd.show(Quizprocess.this);
-                        } else {
-                            Log.d("TAG", "The interstitial ad wasn't ready yet.");
-                        }
                         Log.i(TAG, "onAdLoaded");
+                        interstitialAd.setFullScreenContentCallback(
+                                new FullScreenContentCallback() {
+                                    @Override
+                                    public void onAdDismissedFullScreenContent() {
+                                        mInterstitialAd = null;
+                                        Log.d("TAG", "The ad was dismissed.");
+                                    }
+                                    @Override
+                                    public void onAdFailedToShowFullScreenContent(AdError adError) {
+                                        mInterstitialAd = null;
+                                        Log.d("TAG", "The ad failed to show.");
+                                    }
+                                    @Override
+                                    public void onAdShowedFullScreenContent() {
+                                        // Called when fullscreen content is shown.
+                                        Log.d("TAG", "The ad was shown.");
+                                    }
+                                });
                     }
-
                     @Override
                     public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                        // Handle the error
                         mInterstitialAd = null;
                     }
                 });
     }
-
     @Override
     public void onBackPressed() {
         if (currentView == showCatalog) {
@@ -242,6 +248,13 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onResponse(String response) {
                 CustomProgress.hideProgressBar();
+                if (mInterstitialAd != null) {
+                    mInterstitialAd.show(Quizprocess.this);
+                } else {
+                    if (mInterstitialAd == null) {
+                        interAds();
+                    }
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -268,7 +281,7 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
     }
 
     private void getQuizFile() {
-        CustomProgress.showProgressBar(this,false,"Wait..");
+        CustomProgress.showProgressBar(this,false,"Wait...");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -283,7 +296,6 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
                         item.setChapterName(chapterDetails);
                         item.setChapterCount(String.valueOf(numQuizItems+" টি কুইজ।"));
                         catalogList.add(item);
-                        CustomProgress.hideProgressBar();
                         quizAdapter = new ChapterAdapter(Quizprocess.this,catalogList, Quizprocess.this);
                         quizRecycler.setAdapter(quizAdapter);
                         arryQuestion = new JSONArray(response.toString());
@@ -295,12 +307,16 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
                                 showQuiz.setVisibility(View.VISIBLE);
                             }
                         }
+                        CustomProgress.hideProgressBar();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     CustomProgress.hideProgressBar();
                     if (animationView.getVisibility() == View.GONE){
                         animationView.setVisibility(View.VISIBLE);
+                        AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
+                        alphaAnimation.setDuration(1000);
+                        textNoQuiz.startAnimation(alphaAnimation);
                         if (currentView.getVisibility() == View.VISIBLE){
                             currentView.setVisibility(View.GONE);
                         }else {
@@ -317,6 +333,9 @@ public class Quizprocess extends AppCompatActivity implements View.OnClickListen
                 CustomProgress.hideProgressBar();
                 if (animationView.getVisibility() == View.GONE){
                     animationView.setVisibility(View.VISIBLE);
+                    AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
+                    alphaAnimation.setDuration(1000);
+                    textNoQuiz.startAnimation(alphaAnimation);
                     if (currentView.getVisibility() == View.VISIBLE){
                         currentView.setVisibility(View.GONE);
                     }else {

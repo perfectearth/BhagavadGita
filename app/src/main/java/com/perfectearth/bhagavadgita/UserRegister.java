@@ -189,7 +189,7 @@ public class UserRegister extends AppCompatActivity {
             inTextPassword.setError("Please fill");
             inTextPassword.requestFocus();
         }
-        CustomProgress.showProgressBar(this,false,"Please\nWait....");
+        CustomProgress.showProgressBar(this,false,"Wait...");
         loginUser(phone, password);
     }
     private void userCollectData() {
@@ -225,7 +225,7 @@ public class UserRegister extends AppCompatActivity {
             return;
         }
         String a_id = sessionManager.getId();
-        CustomProgress.showProgressBar(this,false,"Please\nWait....");
+        CustomProgress.showProgressBar(this,false,"Wait...");
         registerUser(name, phone, password,a_id);
     }
 

@@ -22,8 +22,8 @@
     <color name="textInputLayout">#96ffffff</color>
     <color name="red">#FF1100</color>
     <color name="purple">#9215DF</color>
-    <color name="first">#a9dee2</color>
-    <color name="second">#d1d5fa</color>
-    <color name="third">#e9bfcb</color>
+    <color name="first">#A9DEE2</color>
+    <color name="second">#D1D5FA</color>
+    <color name="third">#E9BFCB</color>
 
 </resources>

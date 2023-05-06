@@ -34,6 +34,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 import com.perfectearth.bhagavadgita.Adapter.ExamAdapter;
 import com.perfectearth.bhagavadgita.AdapterItem.Question;
 import com.perfectearth.bhagavadgita.Utilis.CustomProgress;
@@ -56,7 +57,7 @@ public class Finalexam extends AppCompatActivity implements ExamAdapter.ItemOnCl
 
     private TextView textCorrect,textWrong,textQuestion,textSelect,textTimer,textPercent,textResult;
     private LinearLayout animationExam;
-    private View showExam,currentView,startExam,showResult;
+    private View showExam,currentView,startExam,showResult,rootView;
     private long timeLeftInMillis ;
     private Toolbar processToolbar;
     private CountDownTimer countDownTimer;
@@ -78,6 +79,7 @@ public class Finalexam extends AppCompatActivity implements ExamAdapter.ItemOnCl
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        rootView = findViewById(android.R.id.content);
 
         progressExam = findViewById(R.id.progress_exam);
         countExam = findViewById(R.id.progress_count_qus);
@@ -156,7 +158,6 @@ public class Finalexam extends AppCompatActivity implements ExamAdapter.ItemOnCl
                 }
             }
         });
-        CustomProgress.showProgressBar(this,false,"Wait..");
         checkExam();
         processToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,6 +212,7 @@ public class Finalexam extends AppCompatActivity implements ExamAdapter.ItemOnCl
         textToolbar.setText(getString(R.string.exam_score));
     }
     private void checkExam(){
+        CustomProgress.showProgressBar(this,false,"Wait...");
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -237,14 +239,30 @@ public class Finalexam extends AppCompatActivity implements ExamAdapter.ItemOnCl
                     }
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
+
                 }
+                CustomProgress.hideProgressBar();
 
             }}
              , new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    finish();
                     CustomProgress.hideProgressBar();
+                    if (animationExam.getVisibility() == View.GONE){
+                        animationExam.setVisibility(View.VISIBLE);
+                        AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
+                        alphaAnimation.setDuration(1000);
+                        textNoExam.startAnimation(alphaAnimation);
+                    }
+                    if (startExam.getVisibility()==View.VISIBLE){
+                        startExam.setVisibility(View.GONE);
+                    }
+                    Snackbar.make(rootView, "Having trouble loading the exam!", Snackbar.LENGTH_LONG).setAction("Retry", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                           checkExam();
+                        }
+                    }).show();
                 }
         }) {
             @Override
@@ -288,7 +306,7 @@ public class Finalexam extends AppCompatActivity implements ExamAdapter.ItemOnCl
                             String examDescription = jsonObject.getString("exam_description");
                             int timeHow = jsonObject.getInt("examTime");
                             numQuizItems = examAllArray.length(); //check how many question have
-                            if (examHave.equals("false")){
+                            if (examHave.equals("true")){
                                 for (int j = 0; j < examAllArray.length(); j++) {
                                     JSONObject examObject = examAllArray.getJSONObject(j);
                                     String question = examObject.getString("question");
@@ -491,17 +509,13 @@ public class Finalexam extends AppCompatActivity implements ExamAdapter.ItemOnCl
     }
 
     private void startTimer() {
-
         Long startTime = System.currentTimeMillis();
-
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
-
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeftInMillis = millisUntilFinished;
                 updateCountdownText();
             }
-
             @Override
             public void onFinish() {
                 timeInLeft = System.currentTimeMillis() - startTime;

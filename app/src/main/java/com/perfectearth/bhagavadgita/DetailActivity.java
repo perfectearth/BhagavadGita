@@ -1,5 +1,8 @@
 package com.perfectearth.bhagavadgita;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
@@ -14,6 +17,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +28,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.perfectearth.bhagavadgita.Adapter.DetailsAdapter;
 import com.perfectearth.bhagavadgita.AdapterItem.VerseItem;
@@ -34,6 +47,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.perfectearth.bhagavadgita.Utilis.NetworkUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +60,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailActivity extends AppCompatActivity implements DetailsAdapter.VerseClick{
+public class DetailActivity extends AppCompatActivity implements DetailsAdapter.VerseClick, NetworkUtils.OnNetworkCheckListener{
 
     private RecyclerView vRecyclerView;
     private DetailsAdapter vAdapter;
@@ -62,6 +76,7 @@ public class DetailActivity extends AppCompatActivity implements DetailsAdapter.
     private float textSize , textSpacing;
     private NestedScrollView detailsScroll;
     private Typeface typeface;
+    private InterstitialAd mInterstitialAd;
 
 
     @Override
@@ -72,6 +87,12 @@ public class DetailActivity extends AppCompatActivity implements DetailsAdapter.
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
 
         vRecyclerView = findViewById(R.id.recycler_view);
         vRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -87,6 +108,9 @@ public class DetailActivity extends AppCompatActivity implements DetailsAdapter.
 
         ImageButton clickFont = findViewById(R.id.click_font);
 
+        if (mInterstitialAd==null){
+            NetworkUtils.isNetworkAvailable(this, this);
+        }
 
         prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         textSize = prefs.getFloat("textSize", 14f);
@@ -433,7 +457,46 @@ public class DetailActivity extends AppCompatActivity implements DetailsAdapter.
             }
         }
     }
-
+    private void interAds() {
+        AdRequest adRequest = new AdRequest.Builder().build();
+        InterstitialAd.load(this,"ca-app-pub-8889566517679501/9227619100", adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        mInterstitialAd = interstitialAd;
+                        if (mInterstitialAd != null) {
+                            mInterstitialAd.show(DetailActivity.this);
+                        } else {
+                            if (mInterstitialAd == null) {
+                                interAds();
+                            }
+                        }
+                        Log.i(TAG, "onAdLoaded");
+                        interstitialAd.setFullScreenContentCallback(
+                                new FullScreenContentCallback() {
+                                    @Override
+                                    public void onAdDismissedFullScreenContent() {
+                                        mInterstitialAd = null;
+                                        Log.d("TAG", "The ad was dismissed.");
+                                    }
+                                    @Override
+                                    public void onAdFailedToShowFullScreenContent(AdError adError) {
+                                        mInterstitialAd = null;
+                                        Log.d("TAG", "The ad failed to show.");
+                                    }
+                                    @Override
+                                    public void onAdShowedFullScreenContent() {
+                                        // Called when fullscreen content is shown.
+                                        Log.d("TAG", "The ad was shown.");
+                                    }
+                                });
+                    }
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        mInterstitialAd = null;
+                    }
+                });
+    }
     @Override
     public void onItemClickV(String verseSerial) {
         Intent intent = new Intent(this, VerseActivity.class);
@@ -457,5 +520,12 @@ public class DetailActivity extends AppCompatActivity implements DetailsAdapter.
                 CustomProgress.hideProgressBar();
             }
         }, 700);
+    }
+
+    @Override
+    public void onNetworkCheck(boolean isNetworkAvailable) {
+        if (isNetworkAvailable) {
+            interAds();
+        }
     }
 }

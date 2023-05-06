@@ -10,12 +10,19 @@
 </group>
     <group
         android:id="@+id/group2">
-    <item
-        android:icon="@drawable/support_agent"
-        android:id="@+id/support"
-        android:title="@string/support">
+        <item
+            android:icon="@drawable/support_agent"
+            android:id="@+id/support"
+            android:title="@string/support">
 
-    </item>
+        </item>
+
+        <item
+            android:icon="@drawable/support_agent"
+            android:id="@+id/privacy"
+            android:title="@string/privacy">
+
+        </item>
         <item
             android:icon="@drawable/share_icon"
             android:id="@+id/share"

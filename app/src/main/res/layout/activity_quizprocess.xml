@@ -29,33 +29,51 @@
                 android:id="@+id/txt_title_quiz"/>
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
-    <com.airbnb.lottie.LottieAnimationView
-        android:visibility="gone"
+    <RelativeLayout
         android:id="@+id/animation_view_quiz"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="@dimen/dp_50"
-        android:layout_centerInParent="true"
-        app:lottie_rawRes="@raw/load_krishna"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"/>
-
-    <include
-        android:id="@+id/show_catalog"
-        layout="@layout/quiz_catalog"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/app_bar_process"
-        android:layout_above="@id/adView"/>
-
-    <include
-        android:layout_below="@id/app_bar_process"
-        android:id="@+id/show_quiz_in"
         android:visibility="gone"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        layout="@layout/quiz_show"
-        android:layout_above="@id/adView"/>
+        android:layout_height="match_parent">
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_quiz"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="@dimen/dp_50"
+            android:layout_centerInParent="true"
+            app:lottie_rawRes="@raw/load_krishna"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
+        <TextView
+            android:layout_centerInParent="true"
+            android:layout_below="@id/animation_quiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:id="@+id/no_quiz_text"
+            android:layout_gravity="center"
+            android:text="@string/final_quiz_no"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_above="@id/adView"
+        android:layout_below="@id/app_bar_process"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/show_catalog"
+            layout="@layout/quiz_catalog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <include
+            android:id="@+id/show_quiz_in"
+            android:visibility="gone"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            layout="@layout/quiz_show"
+            />
+    </RelativeLayout>
+
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
@@ -64,7 +82,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+        ads:adUnitId="ca-app-pub-8889566517679501/1367394661">
     </com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

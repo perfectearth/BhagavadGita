@@ -1,6 +1,8 @@
 package com.perfectearth.bhagavadgita;
 
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,11 +20,18 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -36,10 +45,13 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.perfectearth.bhagavadgita.Adapter.QuizAllAdapter;
 import com.perfectearth.bhagavadgita.Adapter.ScoreAdapter;
 import com.perfectearth.bhagavadgita.AdapterItem.ItemScore;
+import com.perfectearth.bhagavadgita.AdapterItem.QuizItemAll;
 import com.perfectearth.bhagavadgita.Fragment.ProfileFragment;
 import com.perfectearth.bhagavadgita.Fragment.ScoreFragment;
+import com.perfectearth.bhagavadgita.Utilis.CustomProgress;
 import com.perfectearth.bhagavadgita.Utilis.SessionManager;
 import com.perfectearth.bhagavadgita.Utilis.ZoomOutPageTransformer;
 
@@ -62,6 +74,11 @@ public class QuizAll extends AppCompatActivity {
     private AppBarLayout appBarLayoutQuiz;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private boolean isCollapsingToolbarAdded = true;
+    private String url;
+    private TextView firstNameQ,firstScoreQ,secondNameQ
+            ,secondScoreQ,thirdNameQ,thirdScoreQ;
+    private TextView firstNameE,firstScoreE,secondNameE
+            ,secondScoreE,thirdNameE,thirdScoreE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +93,7 @@ public class QuizAll extends AppCompatActivity {
         upArrow.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        url = getString(R.string.save_link);
         sessionManager = new SessionManager(this);
         optionQuiz = findViewById(R.id.quiz_option);
         if (!sessionManager.isLoggedIn()) {
@@ -89,9 +106,21 @@ public class QuizAll extends AppCompatActivity {
         quizShow = findViewById(R.id.quiz_start);
         examShow = findViewById(R.id.exam_start);
 
-
         bottomNavQuiz = findViewById(R.id.bottom_navi_quiz);
 
+        firstNameQ =findViewById(R.id.first_quiz_name);
+        secondNameQ =findViewById(R.id.second_quiz_name);
+        thirdNameQ =findViewById(R.id.third_quiz_name);
+        firstScoreQ =findViewById(R.id.first_quiz_score);
+        secondScoreQ =findViewById(R.id.second_quiz_score);
+        thirdScoreQ =findViewById(R.id.third_quiz_score);
+
+        firstNameE =findViewById(R.id.first_exam_name);
+        secondNameE =findViewById(R.id.second_exam_name);
+        thirdNameE =findViewById(R.id.third_exam_name);
+        firstScoreE =findViewById(R.id.first_exam_score);
+        secondScoreE =findViewById(R.id.second_exam_score);
+        thirdScoreE =findViewById(R.id.third_exam_score);
 
         collapsingToolbarLayout = findViewById(R.id.collapsing_quiz);
         collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(this, R.color.purple_500));
@@ -139,9 +168,102 @@ public class QuizAll extends AppCompatActivity {
             }
         });
         setupBottomNavigation();
+        showWinner();
 
     }
+    private void showWinner() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    JSONArray quizScores = jsonResponse.getJSONArray("winner_quiz");
+                    JSONArray examScores = jsonResponse.getJSONArray("winner_exam");
 
+                    for (int i = 0; i < Math.min(quizScores.length(), 3); i++) {
+                        JSONObject score = quizScores.getJSONObject(i);
+                        switch (i) {
+                            case 0:
+                                topScoreView(score, firstNameQ, firstScoreQ);
+                                break;
+                            case 1:
+                                topScoreView(score, secondNameQ, secondScoreQ);
+                                break;
+                            case 2:
+                                topScoreView(score, thirdNameQ, thirdScoreQ);
+                                break;
+                        }
+                    }
+
+                    for (int i = 0; i < Math.min(examScores.length(), 3); i++) {
+                        JSONObject score = examScores.getJSONObject(i);
+                        switch (i) {
+                            case 0:
+                                topScoreExam(score, firstNameE, firstScoreE);
+                                break;
+                            case 1:
+                                topScoreExam(score, secondNameE, secondScoreE);
+                                break;
+                            case 2:
+                                topScoreExam(score, thirdNameE, thirdScoreE);
+                                break;
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("ContentValues", "error" + error.getMessage());
+                Toast.makeText(QuizAll.this,"Wrong",Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                // Add parameters to request
+                Map<String, String> params = new HashMap<>();
+                params.put("action", "get_scores");
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                // Add header to force 3G network
+                Map<String, String> headers = new HashMap<>();
+                headers.put("x-network-type", "3g");
+                return headers;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+    private void topScoreExam(JSONObject scoreObject, TextView nameView, TextView scoreView) throws JSONException {
+        int score = Integer.parseInt(scoreObject.getString("user_score"));
+        String name = scoreObject.getString("user_name");
+        nameView.setText(name);
+        String value = String.valueOf(score*5);
+        String textScore = "Score\n" +value;
+        SpannableString spannableString = new SpannableString(textScore);
+        spannableString.setSpan(new StyleSpan(Typeface.BOLD), textScore.indexOf(value), textScore.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        int color = ContextCompat.getColor(this, R.color.teal_700);
+        spannableString.setSpan(new ForegroundColorSpan(color), textScore.indexOf(value), textScore.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        scoreView.setText(spannableString);
+    }
+    private void topScoreView(JSONObject scoreObject, TextView nameView, TextView scoreView) throws JSONException {
+        int score = Integer.parseInt(scoreObject.getString("user_score"));
+        String name = scoreObject.getString("user_name");
+        nameView.setText(name);
+        String value = String.valueOf(score*5);
+        String textScore = "Score\n" +value;
+        SpannableString spannableString = new SpannableString(textScore);
+        spannableString.setSpan(new StyleSpan(Typeface.BOLD), textScore.indexOf(value), textScore.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        int color = ContextCompat.getColor(this, R.color.teal_700);
+        spannableString.setSpan(new ForegroundColorSpan(color), textScore.indexOf(value), textScore.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        scoreView.setText(spannableString);
+    }
     private void switchToFragment1() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();

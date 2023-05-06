@@ -47,13 +47,13 @@
             android:id="@+id/exam_description"/>
 
         <Button
+            android:layout_below="@+id/exam_description"
             android:id="@+id/exam_start_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="@dimen/dp_30"
-            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_100"
             android:layout_marginEnd="@dimen/dp_30"
             android:layout_marginBottom="@dimen/dp_30"
             android:text="@string/let_get_started" />

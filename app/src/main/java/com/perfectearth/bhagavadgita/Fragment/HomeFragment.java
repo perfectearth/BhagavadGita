@@ -1,5 +1,6 @@
 package com.perfectearth.bhagavadgita.Fragment;
 
+import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.Dialog;
@@ -9,6 +10,7 @@ import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -26,13 +28,21 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.perfectearth.bhagavadgita.Adapter.ChapterAdapter;
 import com.perfectearth.bhagavadgita.AdapterItem.ChapterItem;
 import com.perfectearth.bhagavadgita.DetailActivity;
+import com.perfectearth.bhagavadgita.Quizprocess;
 import com.perfectearth.bhagavadgita.R;
 import com.perfectearth.bhagavadgita.Utilis.BanglaNumberUtils;
 import com.perfectearth.bhagavadgita.Utilis.ChapterAll;
 import com.perfectearth.bhagavadgita.Utilis.CustomProgress;
+import com.perfectearth.bhagavadgita.Utilis.NetworkUtils;
 import com.perfectearth.bhagavadgita.VerseActivity;
 
 import org.json.JSONArray;
@@ -46,7 +56,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements ChapterAdapter.OnItemClickListener {
+public class HomeFragment extends Fragment implements ChapterAdapter.OnItemClickListener{
 
     public HomeFragment() {
         // Required empty public constructor
@@ -234,7 +244,6 @@ public class HomeFragment extends Fragment implements ChapterAdapter.OnItemClick
         Intent intent = new Intent(getContext(), DetailActivity.class);
         intent.putExtra("position",position);
         startActivity(intent);
-
     }
     private void stopDialog(){
         new Handler().postDelayed(new Runnable() {
